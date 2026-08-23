@@ -1,3 +1,4 @@
+/* Design tokens keep colors, type, spacing, and motion consistent across the app. */
 :root {
   /* Color tokens keep the visual language easy to update later. */
   --color-ink: #17221b;
@@ -22,6 +23,7 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+/* This predictable box model makes width and spacing calculations easier to understand. */
 *,
 *::before,
 *::after {
@@ -32,6 +34,7 @@ html {
   scroll-behavior: smooth;
 }
 
+/* The page starts with a light paper background and dark, readable text. */
 body {
   margin: 0;
   color: var(--color-ink);
@@ -59,6 +62,7 @@ button {
   cursor: pointer;
 }
 
+/* The shared width rule keeps every major page area aligned to one content column. */
 .site-header,
 main,
 .site-footer {
@@ -96,6 +100,7 @@ main,
   letter-spacing: -0.04em;
 }
 
+/* Navigation is hidden on small screens; the menu button is the mobile placeholder. */
 .site-nav {
   display: none;
   align-items: center;
@@ -142,6 +147,7 @@ main,
   transform: scale(0.97);
 }
 
+/* The hero is the visual entry point, so it gets extra space and a soft decorative ring. */
 .hero {
   position: relative;
   isolation: isolate;
@@ -164,6 +170,7 @@ main,
   content: "";
 }
 
+/* Small uppercase labels create a consistent visual hierarchy above headings. */
 .eyebrow {
   margin: 0 0 0.55rem;
   color: var(--color-sage-deep);
@@ -197,6 +204,7 @@ main,
   font-size: 1.05rem;
 }
 
+/* Both button styles share sizing and interaction behavior; their colors differ by purpose. */
 .primary-button,
 .secondary-button {
   display: inline-flex;
@@ -223,6 +231,7 @@ main,
   box-shadow: 0 0.8rem 1.8rem rgba(47, 107, 79, 0.28);
 }
 
+/* Sections use generous vertical rhythm so the dashboard does not feel crowded. */
 .dashboard-section {
   margin-top: 3rem;
 }
@@ -247,12 +256,14 @@ main,
   font-size: 0.85rem;
 }
 
+/* The grid begins as one column and becomes three summary cards on wider screens. */
 .overview-grid {
   display: grid;
   gap: 0.85rem;
   margin-top: 1.25rem;
 }
 
+/* Cards and panels share the same surface, border, radius, and shadow language. */
 .summary-card,
 .panel {
   border: 1px solid var(--color-line);
@@ -311,6 +322,7 @@ main,
   font-size: 0.85rem;
 }
 
+/* Detailed content stays stacked on mobile and becomes an asymmetric workspace later. */
 .content-grid {
   display: grid;
   gap: 1rem;
@@ -331,6 +343,7 @@ main,
   font-weight: 800;
 }
 
+/* Lists are reset here because each item supplies its own spacing and divider. */
 .assignment-list,
 .timeline {
   padding: 0;
@@ -341,6 +354,7 @@ main,
   margin: 1.3rem 0 0;
 }
 
+/* Three columns separate status, assignment information, and priority at a glance. */
 .assignment-item {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -395,6 +409,7 @@ main,
   background: var(--color-coral-soft);
 }
 
+/* The timetable uses a compact vertical rhythm to read like a daily schedule. */
 .timeline {
   margin: 1.1rem 0 0;
 }
@@ -424,6 +439,7 @@ main,
   color: var(--color-sage-deep);
 }
 
+/* A lime callout gives the next action a distinct visual finish to the page. */
 .note-callout {
   display: flex;
   flex-direction: column;
@@ -483,6 +499,7 @@ main,
   outline-offset: 4px;
 }
 
+/* At tablet width, navigation appears and the dashboard gains its multi-column layout. */
 @media (min-width: 44rem) {
   .site-header,
   main,
@@ -534,6 +551,7 @@ main,
   }
 }
 
+/* Respect users who ask their operating system to reduce non-essential motion. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

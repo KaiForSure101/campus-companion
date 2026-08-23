@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- The head contains page metadata and links to the styles and JavaScript files. -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Campus Companion — a simple student dashboard for staying organized.">
@@ -8,6 +9,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Site-wide navigation: the brand and primary links stay consistent across pages. -->
   <header class="site-header">
     <a class="brand" href="index.html" aria-label="Campus Companion home">
       <span class="brand-mark" aria-hidden="true">CC</span>
@@ -26,7 +28,9 @@
     </button>
   </header>
 
+  <!-- Main dashboard content is divided into readable, task-focused sections. -->
   <main id="dashboard">
+    <!-- Hero section introduces the dashboard and its main action. -->
     <section class="hero" aria-labelledby="page-title">
       <p class="eyebrow">Your calmer academic day</p>
       <h1 id="page-title">Good morning, student.</h1>
@@ -34,6 +38,7 @@
       <a class="primary-button" href="#assignments">View today’s plan</a>
     </section>
 
+    <!-- Summary cards give students a quick overview before detailed content. -->
     <section class="dashboard-section" aria-labelledby="overview-title">
       <div class="section-heading">
         <div>
@@ -64,6 +69,7 @@
       </div>
     </section>
 
+    <!-- Two-column workspace: assignments are primary, while the timetable is supporting information. -->
     <section class="dashboard-section content-grid" aria-label="Academic workspace">
       <article id="assignments" class="panel">
         <div class="panel-heading">
@@ -136,6 +142,7 @@
       </aside>
     </section>
 
+    <!-- This callout is intentionally static for now; note creation will be added later. -->
     <section id="notes" class="dashboard-section note-callout" aria-labelledby="notes-title">
       <div>
         <p class="eyebrow">Capture ideas</p>
@@ -146,11 +153,13 @@
     </section>
   </main>
 
+  <!-- Footer closes the page with simple product context. -->
   <footer class="site-footer">
     <p>Campus Companion</p>
     <p>Built one understandable feature at a time.</p>
   </footer>
 
+  <!-- defer waits until the HTML is parsed before loading JavaScript. -->
   <script src="app.js" defer></script>
 </body>
 </html>
