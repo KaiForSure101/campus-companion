@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Campus Companion — a simple student dashboard for staying organized.">
+  <title>Campus Companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Campus Companion home">
+      <span class="brand-mark" aria-hidden="true">CC</span>
+      <span class="brand-name">Campus Companion</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#assignments">Assignments</a>
+      <a href="#notes">Notes</a>
+      <a href="#timetable">Timetable</a>
+    </nav>
+
+    <button class="menu-button" type="button" aria-label="Open navigation menu" aria-expanded="false">
+      <span aria-hidden="true">☰</span>
+    </button>
+  </header>
+
+  <main id="dashboard">
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow">Your calmer academic day</p>
+      <h1 id="page-title">Good morning, student.</h1>
+      <p class="hero-text">Keep your classes, assignments, and ideas in one clear place.</p>
+      <a class="primary-button" href="#assignments">View today’s plan</a>
+    </section>
+
+    <section class="dashboard-section" aria-labelledby="overview-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">At a glance</p>
+          <h2 id="overview-title">Your overview</h2>
+        </div>
+        <span class="date-label">Monday, September 8</span>
+      </div>
+
+      <div class="overview-grid">
+        <article class="summary-card summary-card--accent">
+          <p class="card-label">Today’s classes</p>
+          <p class="card-value">3</p>
+          <p class="card-note">Next: Web Development at 10:00</p>
+        </article>
+
+        <article class="summary-card">
+          <p class="card-label">Open assignments</p>
+          <p class="card-value">5</p>
+          <p class="card-note">2 are due this week</p>
+        </article>
+
+        <article class="summary-card">
+          <p class="card-label">Study streak</p>
+          <p class="card-value">7 days</p>
+          <p class="card-note">You are building momentum</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="dashboard-section content-grid" aria-label="Academic workspace">
+      <article id="assignments" class="panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Stay ahead</p>
+            <h2>Upcoming assignments</h2>
+          </div>
+          <a class="text-link" href="#assignments">View all</a>
+        </div>
+
+        <ul class="assignment-list">
+          <li class="assignment-item">
+            <span class="status-dot status-dot--urgent" aria-label="Due soon"></span>
+            <div>
+              <h3>Portfolio wireframes</h3>
+              <p>Web Development · Due tomorrow</p>
+            </div>
+            <span class="priority-label priority-label--urgent">Urgent</span>
+          </li>
+          <li class="assignment-item">
+            <span class="status-dot" aria-label="In progress"></span>
+            <div>
+              <h3>Research summary</h3>
+              <p>Academic Writing · Due Thursday</p>
+            </div>
+            <span class="priority-label">Medium</span>
+          </li>
+          <li class="assignment-item">
+            <span class="status-dot" aria-label="Not started"></span>
+            <div>
+              <h3>Functions practice set</h3>
+              <p>Mathematics · Due Friday</p>
+            </div>
+            <span class="priority-label">Low</span>
+          </li>
+        </ul>
+      </article>
+
+      <aside id="timetable" class="panel timetable-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Monday schedule</p>
+            <h2>Today’s timetable</h2>
+          </div>
+        </div>
+
+        <ol class="timeline">
+          <li class="timeline-item timeline-item--current">
+            <time datetime="2026-09-08T10:00">10:00</time>
+            <div>
+              <h3>Web Development</h3>
+              <p>Room B204 · 90 minutes</p>
+            </div>
+          </li>
+          <li class="timeline-item">
+            <time datetime="2026-09-08T13:00">13:00</time>
+            <div>
+              <h3>Academic Writing</h3>
+              <p>Room A103 · 60 minutes</p>
+            </div>
+          </li>
+          <li class="timeline-item">
+            <time datetime="2026-09-08T15:00">15:00</time>
+            <div>
+              <h3>Mathematics</h3>
+              <p>Room C301 · 90 minutes</p>
+            </div>
+          </li>
+        </ol>
+      </aside>
+    </section>
+
+    <section id="notes" class="dashboard-section note-callout" aria-labelledby="notes-title">
+      <div>
+        <p class="eyebrow">Capture ideas</p>
+        <h2 id="notes-title">Your next great idea belongs here.</h2>
+        <p>Save a quick note now. We will make this interactive in a later phase.</p>
+      </div>
+      <button class="secondary-button" type="button">Add a note</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Campus Companion</p>
+    <p>Built one understandable feature at a time.</p>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
