@@ -71,6 +71,7 @@ main,
 }
 
 .site-header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -108,6 +109,34 @@ main,
   color: var(--color-muted);
   font-size: 0.9rem;
   font-weight: 650;
+}
+
+/* The open mobile state is a compact menu panel anchored below the header. */
+.site-nav.is-open {
+  position: absolute;
+  z-index: 5;
+  top: 4.5rem;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.25rem;
+  padding: 0.6rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-medium);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-hover);
+}
+
+.site-nav.is-open a {
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius-small);
+}
+
+.site-nav.is-open a:hover,
+.site-nav.is-open a:focus-visible {
+  background: var(--color-paper);
 }
 
 .site-nav a,
@@ -513,6 +542,23 @@ main,
 
   .site-nav {
     display: flex;
+  }
+
+  /* Reset the mobile dropdown positioning when the full desktop navigation is visible. */
+  .site-nav.is-open {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .site-nav.is-open a {
+    padding: 0;
   }
 
   .menu-button {
