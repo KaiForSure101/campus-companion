@@ -505,6 +505,15 @@ main,
   background: var(--color-surface);
 }
 
+/* Live feedback remains compact so it supports the action without shifting the layout. */
+.feedback-message {
+  min-height: 1.2rem;
+  margin: 0;
+  color: #556321;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
 .site-footer {
   display: flex;
   flex-direction: column;

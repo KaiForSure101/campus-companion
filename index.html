@@ -45,26 +45,26 @@
           <p class="eyebrow">At a glance</p>
           <h2 id="overview-title">Your overview</h2>
         </div>
-        <span class="date-label">Monday, September 8</span>
+        <span class="date-label" id="dashboard-date">Monday, September 8</span>
       </div>
 
       <div class="overview-grid">
         <article class="summary-card summary-card--accent">
           <p class="card-label">Today’s classes</p>
-          <p class="card-value">3</p>
-          <p class="card-note">Next: Web Development at 10:00</p>
+          <p class="card-value" id="classes-today-value">3</p>
+          <p class="card-note" id="next-class-note">Next: Web Development at 10:00</p>
         </article>
 
         <article class="summary-card">
           <p class="card-label">Open assignments</p>
-          <p class="card-value">5</p>
-          <p class="card-note">2 are due this week</p>
+          <p class="card-value" id="open-assignments-value">5</p>
+          <p class="card-note" id="assignments-week-note">2 are due this week</p>
         </article>
 
         <article class="summary-card">
           <p class="card-label">Study streak</p>
-          <p class="card-value">7 days</p>
-          <p class="card-note">You are building momentum</p>
+          <p class="card-value" id="study-streak-value">7 days</p>
+          <p class="card-note" id="study-streak-note">You are building momentum</p>
         </article>
       </div>
     </section>
@@ -149,7 +149,8 @@
         <h2 id="notes-title">Your next great idea belongs here.</h2>
         <p>Save a quick note now. We will make this interactive in a later phase.</p>
       </div>
-      <button class="secondary-button" type="button">Add a note</button>
+      <button class="secondary-button" id="note-action" type="button">Add a note</button>
+      <p class="feedback-message" id="feedback-message" role="status" aria-live="polite"></p>
     </section>
   </main>
 
