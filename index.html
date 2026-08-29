@@ -77,10 +77,48 @@
             <p class="eyebrow">Stay ahead</p>
             <h2>Upcoming assignments</h2>
           </div>
-          <a class="text-link" href="#assignments">View all</a>
+          <span class="assignment-count" id="assignment-count">3 tasks</span>
         </div>
 
-        <ul class="assignment-list">
+        <!-- The form creates a new assignment without leaving the dashboard. -->
+        <form class="assignment-form" id="assignment-form">
+          <div class="form-row">
+            <label>
+              Assignment title
+              <input id="assignment-title" name="title" type="text" placeholder="e.g. Portfolio wireframes" required>
+            </label>
+            <label>
+              Subject
+              <input id="assignment-subject" name="subject" type="text" placeholder="e.g. Web Development" required>
+            </label>
+          </div>
+          <div class="form-row">
+            <label>
+              Due date
+              <input id="assignment-due-date" name="dueDate" type="date" required>
+            </label>
+            <label>
+              Priority
+              <select id="assignment-priority" name="priority">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </label>
+          </div>
+          <button class="secondary-button assignment-submit" type="submit">Add assignment</button>
+        </form>
+
+        <div class="assignment-toolbar">
+          <label for="assignment-filter">Show</label>
+          <select id="assignment-filter">
+            <option value="all">All assignments</option>
+            <option value="open">Open assignments</option>
+            <option value="completed">Completed assignments</option>
+          </select>
+        </div>
+
+        <ul class="assignment-list" id="assignment-list">
           <li class="assignment-item">
             <span class="status-dot status-dot--urgent" aria-label="Due soon"></span>
             <div>
