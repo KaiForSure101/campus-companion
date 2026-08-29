@@ -4,13 +4,13 @@ Campus Companion is a student dashboard designed to bring daily academic informa
 
 ## Current checkpoint
 
-The project has completed the foundation stage. It currently includes a semantic HTML dashboard, a responsive CSS design system, a working mobile navigation menu, dynamic dashboard values, and explanatory comments throughout the source files.
+The project has completed the foundation stage and the first Phase 2 functionality milestones. It currently includes a semantic HTML dashboard, a responsive CSS design system, a working mobile navigation menu, dynamic dashboard values, an assignment tracker, saved notes, localStorage persistence, and explanatory comments throughout the source files.
 
 | File | Responsibility |
 |---|---|
 | `index.html` | Defines the page structure, content, navigation, accessibility labels, and semantic sections |
 | `styles.css` | Defines colors, typography, spacing, layout, responsive breakpoints, focus states, and visual feedback |
-| `app.js` | Defines dashboard state, DOM updates, navigation events, keyboard behavior, and placeholder feedback |
+| `app.js` | Defines dashboard state, DOM updates, navigation events, assignment and note state, persistence, and user feedback |
 
 ## How the page works
 
@@ -38,4 +38,4 @@ Because this is a static vanilla project, the page can be opened directly by ope
 
 ## Planned next stage
 
-The next major stage is Phase 2: adding useful frontend functionality with local state. Planned features include an assignment tracker, notes, a GPA calculator, a timetable editor, a Pomodoro timer, dark mode, and localStorage persistence. Each feature will be implemented separately and committed only after review.
+The next Phase 2 features are a GPA calculator, timetable editor, Pomodoro timer, and dark mode. Each feature will be implemented separately and committed only after review.

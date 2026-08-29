@@ -185,9 +185,20 @@
       <div>
         <p class="eyebrow">Capture ideas</p>
         <h2 id="notes-title">Your next great idea belongs here.</h2>
-        <p>Save a quick note now. We will make this interactive in a later phase.</p>
+        <p>Capture a thought now and keep it close to your daily plan.</p>
       </div>
-      <button class="secondary-button" id="note-action" type="button">Add a note</button>
+
+      <!-- The note form keeps input close to the place where saved notes appear. -->
+      <form class="note-form" id="note-form">
+        <label class="sr-only" for="note-text">Write a note</label>
+        <textarea id="note-text" name="text" rows="3" maxlength="280" placeholder="What is on your mind?" required></textarea>
+        <div class="note-form-footer">
+          <span class="character-limit">280 characters maximum</span>
+          <button class="secondary-button" type="submit">Save note</button>
+        </div>
+      </form>
+
+      <ul class="note-list" id="note-list" aria-label="Saved notes"></ul>
       <p class="feedback-message" id="feedback-message" role="status" aria-live="polite"></p>
     </section>
   </main>

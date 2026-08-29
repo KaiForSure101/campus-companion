@@ -13,7 +13,9 @@ const openAssignmentsValue = document.querySelector("#open-assignments-value");
 const assignmentsWeekNote = document.querySelector("#assignments-week-note");
 const studyStreakValue = document.querySelector("#study-streak-value");
 const studyStreakNote = document.querySelector("#study-streak-note");
-const noteAction = document.querySelector("#note-action");
+const noteForm = document.querySelector("#note-form");
+const noteText = document.querySelector("#note-text");
+const noteList = document.querySelector("#note-list");
 const feedbackMessage = document.querySelector("#feedback-message");
 const assignmentForm = document.querySelector("#assignment-form");
 const assignmentList = document.querySelector("#assignment-list");
@@ -62,7 +64,9 @@ const starterAssignments = [
 ];
 
 const assignmentStorageKey = "campus-companion-assignments";
+const noteStorageKey = "campus-companion-notes";
 let assignments = loadAssignments();
+let notes = loadNotes();
 let activeAssignmentFilter = "all";
 
 // ----------------------------------
@@ -119,6 +123,22 @@ function loadAssignments() {
 
 function saveAssignments() {
   localStorage.setItem(assignmentStorageKey, JSON.stringify(assignments));
+}
+
+function loadNotes() {
+  const savedNotes = localStorage.getItem(noteStorageKey);
+  if (!savedNotes) return [];
+
+  try {
+    return JSON.parse(savedNotes);
+  } catch (error) {
+    console.warn("Saved notes could not be read. Starting with an empty list.");
+    return [];
+  }
+}
+
+function saveNotes() {
+  localStorage.setItem(noteStorageKey, JSON.stringify(notes));
 }
 
 // ---------------------------------------
@@ -247,8 +267,57 @@ assignmentList.addEventListener("click", (event) => {
   updateAssignmentSummary();
 });
 
+// -----------------------------
+// 6. Render and interact with notes
+// -----------------------------
+function renderNotes() {
+  if (notes.length === 0) {
+    noteList.innerHTML = '<li class="empty-state">No saved notes yet. Add your first thought above.</li>';
+    return;
+  }
+
+  noteList.innerHTML = notes
+    .map((note) => `
+      <li class="note-item">
+        <p>${escapeHtml(note.text)}</p>
+        <div class="note-item-footer">
+          <time datetime="${note.createdAt}">${formatDate(new Date(note.createdAt))}</time>
+          <button class="note-delete" type="button" data-note-id="${note.id}" aria-label="Delete note">Delete</button>
+        </div>
+      </li>
+    `)
+    .join("");
+}
+
+noteForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const text = noteText.value.trim();
+  if (!text) return;
+
+  notes.unshift({
+    id: window.crypto?.randomUUID?.() ?? String(Date.now()),
+    text,
+    createdAt: new Date().toISOString(),
+  });
+
+  saveNotes();
+  renderNotes();
+  noteForm.reset();
+  feedbackMessage.textContent = "Note saved to your ideas.";
+});
+
+noteList.addEventListener("click", (event) => {
+  const deleteButton = event.target.closest("[data-note-id]");
+  if (!deleteButton) return;
+
+  notes = notes.filter((note) => note.id !== deleteButton.dataset.noteId);
+  saveNotes();
+  renderNotes();
+  feedbackMessage.textContent = "Note deleted.";
+});
+
 // ----------------------------------------
-// 6. Keep the mobile menu accessible
+// 7. Keep the mobile menu accessible
 // ----------------------------------------
 function setMenuState(isOpen) {
   navigation.classList.toggle("is-open", isOpen);
@@ -286,13 +355,6 @@ document.addEventListener("click", (event) => {
   }
 });
 
-// -------------------------------------
-// 7. Give the placeholder action feedback
-// -------------------------------------
-noteAction.addEventListener("click", () => {
-  feedbackMessage.textContent = "Note creation will be available in the next phase.";
-});
-
 // -----------------------------------
 // 8. Start the page with current data
 // -----------------------------------
@@ -302,3 +364,4 @@ renderDashboard({
 });
 renderAssignments();
 updateAssignmentSummary();
+renderNotes();
