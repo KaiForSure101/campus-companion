@@ -615,6 +615,83 @@ main,
   background: var(--color-surface);
 }
 
+/* The GPA panel groups the form, result, and course list into one focused tool. */
+.gpa-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.gpa-result {
+  margin: 0;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  color: var(--color-sage-deep);
+  background: var(--color-lime);
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.gpa-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.gpa-form label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.gpa-form input,
+.gpa-form select {
+  width: 100%;
+  min-height: 2.6rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.7rem;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  font-size: 0.85rem;
+}
+
+.course-list {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.course-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--color-line);
+}
+
+.course-item div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.course-item span {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+}
+
+.course-delete {
+  padding: 0;
+  border: 0;
+  color: var(--color-sage-deep);
+  background: transparent;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
 /* Notes are stored as small paper-like cards beneath the input. */
 .note-form {
   display: grid;
@@ -634,6 +711,8 @@ main,
 }
 
 .note-form textarea:focus-visible,
+.gpa-form input:focus-visible,
+.gpa-form select:focus-visible,
 .assignment-form input:focus-visible,
 .assignment-form select:focus-visible,
 .assignment-toolbar select:focus-visible {
@@ -770,6 +849,15 @@ main,
 
   .form-row {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gpa-form {
+    grid-template-columns: 1fr 0.7fr auto;
+    align-items: end;
+  }
+
+  .gpa-form .secondary-button {
+    margin-top: 0;
   }
 
   .content-grid {

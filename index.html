@@ -21,6 +21,7 @@
       <a href="#assignments">Assignments</a>
       <a href="#notes">Notes</a>
       <a href="#timetable">Timetable</a>
+      <a href="#gpa">GPA</a>
     </nav>
 
     <button class="menu-button" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation">
@@ -180,7 +181,39 @@
       </aside>
     </section>
 
-    <!-- This callout is intentionally static for now; note creation will be added later. -->
+    <!-- Notes and GPA are focused tools that will grow as the project gains features. -->
+    <section id="gpa" class="dashboard-section panel gpa-panel" aria-labelledby="gpa-title">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Track progress</p>
+          <h2 id="gpa-title">GPA calculator</h2>
+        </div>
+        <p class="gpa-result" id="gpa-result" aria-live="polite">GPA 0.00</p>
+      </div>
+
+      <!-- Courses are entered one at a time so the calculation stays easy to follow. -->
+      <form class="gpa-form" id="gpa-form">
+        <label>
+          Course name
+          <input id="course-name" name="courseName" type="text" placeholder="e.g. Web Development" required>
+        </label>
+        <label>
+          Grade
+          <select id="course-grade" name="grade">
+            <option value="4">A</option>
+            <option value="3" selected>B</option>
+            <option value="2">C</option>
+            <option value="1">D</option>
+            <option value="0">F</option>
+          </select>
+        </label>
+        <button class="secondary-button" type="submit">Add course</button>
+      </form>
+
+      <ul class="course-list" id="course-list" aria-label="Courses included in GPA"></ul>
+      <p class="feedback-message" id="gpa-feedback" role="status" aria-live="polite"></p>
+    </section>
+
     <section id="notes" class="dashboard-section note-callout" aria-labelledby="notes-title">
       <div>
         <p class="eyebrow">Capture ideas</p>

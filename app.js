@@ -21,6 +21,11 @@ const assignmentForm = document.querySelector("#assignment-form");
 const assignmentList = document.querySelector("#assignment-list");
 const assignmentFilter = document.querySelector("#assignment-filter");
 const assignmentCount = document.querySelector("#assignment-count");
+const gpaForm = document.querySelector("#gpa-form");
+const courseName = document.querySelector("#course-name");
+const courseList = document.querySelector("#course-list");
+const gpaResult = document.querySelector("#gpa-result");
+const gpaFeedback = document.querySelector("#gpa-feedback");
 
 // --------------------------------
 // 2. Store the dashboard's first data
@@ -65,8 +70,10 @@ const starterAssignments = [
 
 const assignmentStorageKey = "campus-companion-assignments";
 const noteStorageKey = "campus-companion-notes";
+const courseStorageKey = "campus-companion-courses";
 let assignments = loadAssignments();
 let notes = loadNotes();
+let courses = loadCourses();
 let activeAssignmentFilter = "all";
 
 // ----------------------------------
@@ -139,6 +146,22 @@ function loadNotes() {
 
 function saveNotes() {
   localStorage.setItem(noteStorageKey, JSON.stringify(notes));
+}
+
+function loadCourses() {
+  const savedCourses = localStorage.getItem(courseStorageKey);
+  if (!savedCourses) return [];
+
+  try {
+    return JSON.parse(savedCourses);
+  } catch (error) {
+    console.warn("Saved courses could not be read. Starting with an empty list.");
+    return [];
+  }
+}
+
+function saveCourses() {
+  localStorage.setItem(courseStorageKey, JSON.stringify(courses));
 }
 
 // ---------------------------------------
@@ -316,8 +339,70 @@ noteList.addEventListener("click", (event) => {
   feedbackMessage.textContent = "Note deleted.";
 });
 
+// --------------------------------
+// 7. Calculate and render the GPA
+// --------------------------------
+function calculateGpa() {
+  if (courses.length === 0) return 0;
+
+  const totalGradePoints = courses.reduce(
+    (total, course) => total + course.gradePoints,
+    0
+  );
+
+  return totalGradePoints / courses.length;
+}
+
+function renderCourses() {
+  gpaResult.textContent = `GPA ${calculateGpa().toFixed(2)}`;
+
+  if (courses.length === 0) {
+    courseList.innerHTML = '<li class="empty-state">Add a course to calculate your GPA.</li>';
+    return;
+  }
+
+  courseList.innerHTML = courses
+    .map((course) => `
+      <li class="course-item">
+        <div>
+          <strong>${escapeHtml(course.name)}</strong>
+          <span>Grade ${course.letterGrade}</span>
+        </div>
+        <button class="course-delete" type="button" data-course-id="${course.id}" aria-label="Remove ${escapeHtml(course.name)}">Remove</button>
+      </li>
+    `)
+    .join("");
+}
+
+gpaForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const selectedGrade = document.querySelector("#course-grade");
+
+  courses.push({
+    id: window.crypto?.randomUUID?.() ?? String(Date.now()),
+    name: courseName.value.trim(),
+    letterGrade: selectedGrade.options[selectedGrade.selectedIndex].text,
+    gradePoints: Number(selectedGrade.value),
+  });
+
+  saveCourses();
+  renderCourses();
+  gpaForm.reset();
+  gpaFeedback.textContent = "Course added to your GPA calculation.";
+});
+
+courseList.addEventListener("click", (event) => {
+  const deleteButton = event.target.closest("[data-course-id]");
+  if (!deleteButton) return;
+
+  courses = courses.filter((course) => course.id !== deleteButton.dataset.courseId);
+  saveCourses();
+  renderCourses();
+  gpaFeedback.textContent = "Course removed from your GPA calculation.";
+});
+
 // ----------------------------------------
-// 7. Keep the mobile menu accessible
+// 8. Keep the mobile menu accessible
 // ----------------------------------------
 function setMenuState(isOpen) {
   navigation.classList.toggle("is-open", isOpen);
@@ -365,3 +450,4 @@ renderDashboard({
 renderAssignments();
 updateAssignmentSummary();
 renderNotes();
+renderCourses();
