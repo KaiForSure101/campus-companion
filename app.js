@@ -34,6 +34,8 @@ const timerModeLabel = document.querySelector("#timer-mode");
 const timerStart = document.querySelector("#timer-start");
 const timerReset = document.querySelector("#timer-reset");
 const timerFeedback = document.querySelector("#timer-feedback");
+const themeToggle = document.querySelector("#theme-toggle");
+const reduceMotionToggle = document.querySelector("#reduce-motion-toggle");
 
 // --------------------------------
 // 2. Store the dashboard's first data
@@ -86,6 +88,8 @@ const assignmentStorageKey = "campus-companion-assignments";
 const noteStorageKey = "campus-companion-notes";
 const courseStorageKey = "campus-companion-courses";
 const timetableStorageKey = "campus-companion-timetable";
+const themeStorageKey = "campus-companion-theme";
+const motionStorageKey = "campus-companion-reduced-motion";
 let assignments = loadAssignments();
 let notes = loadNotes();
 let courses = loadCourses();
@@ -525,8 +529,43 @@ timerReset.addEventListener("click", () => {
   renderTimer();
 });
 
+// --------------------------------
+// 9. Apply visual preferences
+// --------------------------------
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  const isDarkTheme = theme === "dark";
+  themeToggle.setAttribute("aria-pressed", String(isDarkTheme));
+  themeToggle.setAttribute("aria-label", isDarkTheme ? "Switch to light theme" : "Switch to dark theme");
+  themeToggle.querySelector(".theme-toggle-label").textContent = isDarkTheme ? "Light" : "Dark";
+}
+
+function applyMotionPreference(shouldReduceMotion) {
+  document.documentElement.classList.toggle("reduce-motion", shouldReduceMotion);
+  reduceMotionToggle.checked = shouldReduceMotion;
+}
+
+function initializePreferences() {
+  const savedTheme = localStorage.getItem(themeStorageKey) || "light";
+  const savedMotionPreference = localStorage.getItem(motionStorageKey) === "true";
+
+  applyTheme(savedTheme);
+  applyMotionPreference(savedMotionPreference);
+}
+
+themeToggle.addEventListener("click", () => {
+  const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  localStorage.setItem(themeStorageKey, nextTheme);
+  applyTheme(nextTheme);
+});
+
+reduceMotionToggle.addEventListener("change", () => {
+  localStorage.setItem(motionStorageKey, String(reduceMotionToggle.checked));
+  applyMotionPreference(reduceMotionToggle.checked);
+});
+
 // ----------------------------------------
-// 9. Keep the mobile menu accessible
+// 10. Keep the mobile menu accessible
 // ----------------------------------------
 function setMenuState(isOpen) {
   navigation.classList.toggle("is-open", isOpen);
@@ -565,8 +604,9 @@ document.addEventListener("click", (event) => {
 });
 
 // -----------------------------------
-// 8. Start the page with current data
+// 11. Start the page with current data
 // -----------------------------------
+initializePreferences();
 renderDashboard({
   ...dashboardState,
   openAssignments: assignments.filter((assignment) => !assignment.completed).length,

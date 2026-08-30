@@ -22,11 +22,18 @@
       <a href="#notes">Notes</a>
       <a href="#timetable">Timetable</a>
       <a href="#gpa">GPA</a>
+      <a href="#settings">Settings</a>
     </nav>
 
-    <button class="menu-button" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation">
-      <span aria-hidden="true">☰</span>
-    </button>
+    <div class="header-actions">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+        <span aria-hidden="true">◐</span>
+        <span class="theme-toggle-label">Theme</span>
+      </button>
+      <button class="menu-button" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation">
+        <span aria-hidden="true">☰</span>
+      </button>
+    </div>
   </header>
 
   <!-- Main dashboard content is divided into readable, task-focused sections. -->
@@ -260,6 +267,19 @@
       <p class="feedback-message" id="feedback-message" role="status" aria-live="polite"></p>
     </section>
   </main>
+
+  <!-- Preferences give users control over the visual experience without a backend. -->
+  <section id="settings" class="dashboard-section settings-panel panel" aria-labelledby="settings-title">
+    <div>
+      <p class="eyebrow">Make it yours</p>
+      <h2 id="settings-title">Preferences</h2>
+      <p>These settings are saved in this browser and can be changed at any time.</p>
+    </div>
+    <label class="setting-control">
+      <input id="reduce-motion-toggle" type="checkbox">
+      <span>Reduce motion</span>
+    </label>
+  </section>
 
   <!-- Footer closes the page with simple product context. -->
   <footer class="site-footer">

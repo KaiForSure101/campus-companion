@@ -23,6 +23,37 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+/* Dark mode swaps the same semantic tokens instead of duplicating every component rule. */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --color-ink: #edf4ec;
+  --color-muted: #a5b5a8;
+  --color-paper: #17231b;
+  --color-surface: #213027;
+  --color-line: #34463a;
+  --color-sage: #2b4a39;
+  --color-sage-deep: #9bd0ae;
+  --color-lime: #b8d957;
+  --color-coral: #f3a38c;
+  --color-coral-soft: #4c3029;
+  --shadow-soft: 0 1rem 3rem rgba(0, 0, 0, 0.2);
+  --shadow-hover: 0 1.25rem 3rem rgba(0, 0, 0, 0.3);
+}
+
+/* Users who prefer less motion get instant scrolling and no decorative transitions. */
+html.reduce-motion {
+  scroll-behavior: auto;
+}
+
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: 0.01ms !important;
+}
+
 /* This predictable box model makes width and spacing calculations easier to understand. */
 *,
 *::before,
@@ -99,6 +130,32 @@ main,
   background: var(--color-lime);
   font-size: 0.75rem;
   letter-spacing: -0.04em;
+}
+
+/* Header actions keep the theme and mobile menu controls together. */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2.35rem;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid var(--color-line);
+  border-radius: 999px;
+  color: var(--color-ink);
+  background: var(--color-surface);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  border-color: var(--color-sage-deep);
 }
 
 /* Navigation is hidden on small screens; the menu button is the mobile placeholder. */
@@ -533,6 +590,43 @@ main,
 .priority-label--urgent {
   color: #b75035;
   background: var(--color-coral-soft);
+}
+
+/* Preferences use the same panel language as the academic tools. */
+.settings-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.settings-panel h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 500;
+}
+
+.settings-panel p:last-child {
+  margin: 0.35rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+.setting-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--color-ink);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.setting-control input {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--color-sage-deep);
 }
 
 /* The timetable uses a compact vertical rhythm to read like a daily schedule. */

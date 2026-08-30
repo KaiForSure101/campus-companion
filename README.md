@@ -4,13 +4,13 @@ Campus Companion is a student dashboard designed to bring daily academic informa
 
 ## Current checkpoint
 
-The project has completed the foundation stage and the first Phase 2 functionality milestones. It currently includes a semantic HTML dashboard, a responsive CSS design system, a working mobile navigation menu, dynamic dashboard values, an assignment tracker, saved notes, a GPA calculator, a timetable editor, a Pomodoro focus timer, shared localStorage helpers, and explanatory comments throughout the source files.
+The project has completed the foundation stage and the first Phase 2 functionality milestones. It currently includes a semantic HTML dashboard, a responsive CSS design system, a working mobile navigation menu, dynamic dashboard values, an assignment tracker, saved notes, a GPA calculator, a timetable editor, a Pomodoro focus timer, shared localStorage helpers, dark mode, reduced-motion preferences, and explanatory comments throughout the source files.
 
 | File | Responsibility |
 |---|---|
 | `index.html` | Defines the page structure, content, navigation, accessibility labels, and semantic sections |
-| `styles.css` | Defines colors, typography, spacing, layout, responsive breakpoints, focus states, and visual feedback |
-| `app.js` | Defines dashboard state, DOM updates, navigation events, assignments, notes, courses, timetable, timer state, persistence, and user feedback |
+| `styles.css` | Defines colors, typography, spacing, layout, responsive breakpoints, focus states, themes, motion preferences, and visual feedback |
+| `app.js` | Defines dashboard state, DOM updates, navigation events, assignments, notes, courses, timetable, timer, preferences, persistence, and user feedback |
 
 ## How the page works
 
@@ -38,4 +38,4 @@ Because this is a static vanilla project, the page can be opened directly by ope
 
 ## Planned next stage
 
-The next bundled milestone is dark mode, settings, accessibility refinements, and responsive quality assurance. Each milestone will be implemented as a meaningful group and committed only after review.
+The next bundled milestone is backend integration: authentication, database, storage, and shared campus data. Each milestone will be implemented as a meaningful group and committed only after review.
