@@ -26,6 +26,14 @@ const courseName = document.querySelector("#course-name");
 const courseList = document.querySelector("#course-list");
 const gpaResult = document.querySelector("#gpa-result");
 const gpaFeedback = document.querySelector("#gpa-feedback");
+const timetableForm = document.querySelector("#timetable-form");
+const timetableList = document.querySelector("#timetable-list");
+const timetableFeedback = document.querySelector("#timetable-feedback");
+const timerDisplay = document.querySelector("#timer-display");
+const timerModeLabel = document.querySelector("#timer-mode");
+const timerStart = document.querySelector("#timer-start");
+const timerReset = document.querySelector("#timer-reset");
+const timerFeedback = document.querySelector("#timer-feedback");
 
 // --------------------------------
 // 2. Store the dashboard's first data
@@ -41,6 +49,12 @@ const dashboardState = {
 
 // This is sample data for the first tracker version. It will be replaced by
 // records from a backend after the localStorage version is understood.
+const starterTimetable = [
+  { id: "web-development", time: "10:00", className: "Web Development", room: "B204", duration: 90 },
+  { id: "academic-writing", time: "13:00", className: "Academic Writing", room: "A103", duration: 60 },
+  { id: "mathematics", time: "15:00", className: "Mathematics", room: "C301", duration: 90 },
+];
+
 const starterAssignments = [
   {
     id: "portfolio-wireframes",
@@ -71,9 +85,11 @@ const starterAssignments = [
 const assignmentStorageKey = "campus-companion-assignments";
 const noteStorageKey = "campus-companion-notes";
 const courseStorageKey = "campus-companion-courses";
+const timetableStorageKey = "campus-companion-timetable";
 let assignments = loadAssignments();
 let notes = loadNotes();
 let courses = loadCourses();
+let timetable = loadTimetable();
 let activeAssignmentFilter = "all";
 
 // ----------------------------------
@@ -115,53 +131,52 @@ function escapeHtml(value) {
   });
 }
 
-function loadAssignments() {
-  const savedAssignments = localStorage.getItem(assignmentStorageKey);
-
-  if (!savedAssignments) return starterAssignments;
+function readStoredData(key, fallback, itemName) {
+  const savedData = localStorage.getItem(key);
+  if (!savedData) return fallback;
 
   try {
-    return JSON.parse(savedAssignments);
+    return JSON.parse(savedData);
   } catch (error) {
-    console.warn("Saved assignments could not be read. Using starter data instead.");
-    return starterAssignments;
+    console.warn(`Saved ${itemName} could not be read. Using starter data instead.`);
+    return fallback;
   }
+}
+
+function writeStoredData(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+function loadAssignments() {
+  return readStoredData(assignmentStorageKey, starterAssignments, "assignments");
 }
 
 function saveAssignments() {
-  localStorage.setItem(assignmentStorageKey, JSON.stringify(assignments));
+  writeStoredData(assignmentStorageKey, assignments);
 }
 
 function loadNotes() {
-  const savedNotes = localStorage.getItem(noteStorageKey);
-  if (!savedNotes) return [];
-
-  try {
-    return JSON.parse(savedNotes);
-  } catch (error) {
-    console.warn("Saved notes could not be read. Starting with an empty list.");
-    return [];
-  }
+  return readStoredData(noteStorageKey, [], "notes");
 }
 
 function saveNotes() {
-  localStorage.setItem(noteStorageKey, JSON.stringify(notes));
+  writeStoredData(noteStorageKey, notes);
 }
 
 function loadCourses() {
-  const savedCourses = localStorage.getItem(courseStorageKey);
-  if (!savedCourses) return [];
-
-  try {
-    return JSON.parse(savedCourses);
-  } catch (error) {
-    console.warn("Saved courses could not be read. Starting with an empty list.");
-    return [];
-  }
+  return readStoredData(courseStorageKey, [], "courses");
 }
 
 function saveCourses() {
-  localStorage.setItem(courseStorageKey, JSON.stringify(courses));
+  writeStoredData(courseStorageKey, courses);
+}
+
+function loadTimetable() {
+  return readStoredData(timetableStorageKey, starterTimetable, "timetable");
+}
+
+function saveTimetable() {
+  writeStoredData(timetableStorageKey, timetable);
 }
 
 // ---------------------------------------
@@ -290,8 +305,56 @@ assignmentList.addEventListener("click", (event) => {
   updateAssignmentSummary();
 });
 
+// ---------------------------------
+// 6. Render and interact with classes
+// ---------------------------------
+function renderTimetable() {
+  const sortedClasses = [...timetable].sort((first, second) => first.time.localeCompare(second.time));
+
+  timetableList.innerHTML = sortedClasses
+    .map((classItem) => `
+      <li class="timeline-item">
+        <time datetime="2026-09-08T${classItem.time}">${classItem.time}</time>
+        <div>
+          <h3>${escapeHtml(classItem.className)}</h3>
+          <p>Room ${escapeHtml(classItem.room)} · ${classItem.duration} minutes</p>
+        </div>
+        <button class="class-delete" type="button" data-class-id="${classItem.id}" aria-label="Remove ${escapeHtml(classItem.className)}">×</button>
+      </li>
+    `)
+    .join("");
+}
+
+timetableForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(timetableForm);
+
+  timetable.push({
+    id: window.crypto?.randomUUID?.() ?? String(Date.now()),
+    time: formData.get("time"),
+    className: formData.get("className").trim(),
+    room: formData.get("room").trim(),
+    duration: Number(formData.get("duration")),
+  });
+
+  saveTimetable();
+  renderTimetable();
+  timetableForm.reset();
+  timetableFeedback.textContent = "Class added to your timetable.";
+});
+
+timetableList.addEventListener("click", (event) => {
+  const deleteButton = event.target.closest("[data-class-id]");
+  if (!deleteButton) return;
+
+  timetable = timetable.filter((classItem) => classItem.id !== deleteButton.dataset.classId);
+  saveTimetable();
+  renderTimetable();
+  timetableFeedback.textContent = "Class removed from your timetable.";
+});
+
 // -----------------------------
-// 6. Render and interact with notes
+// 7. Render and interact with notes
 // -----------------------------
 function renderNotes() {
   if (notes.length === 0) {
@@ -401,8 +464,69 @@ courseList.addEventListener("click", (event) => {
   gpaFeedback.textContent = "Course removed from your GPA calculation.";
 });
 
+// ----------------------------
+// 8. Run the Pomodoro timer
+// ----------------------------
+const focusDuration = 25 * 60;
+let timerMode = "focus";
+let timerSeconds = focusDuration;
+let timerInterval = null;
+
+function formatTimer(seconds) {
+  const minutes = Math.floor(seconds / 60).toString().padStart(2, "0");
+  const remainingSeconds = (seconds % 60).toString().padStart(2, "0");
+  return `${minutes}:${remainingSeconds}`;
+}
+
+function renderTimer() {
+  timerDisplay.textContent = formatTimer(timerSeconds);
+  timerDisplay.setAttribute("aria-label", `${formatTimer(timerSeconds)} remaining`);
+  timerModeLabel.textContent = timerMode === "focus" ? "Focus session" : "Short break";
+  timerStart.textContent = timerInterval ? "Pause focus" : "Start focus";
+}
+
+function switchTimerMode() {
+  timerMode = timerMode === "focus" ? "break" : "focus";
+  timerSeconds = timerMode === "focus" ? focusDuration : 5 * 60;
+  timerFeedback.textContent = timerMode === "focus" ? "New focus session ready." : "Focus session complete. Take a short break.";
+}
+
+timerStart.addEventListener("click", () => {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    timerFeedback.textContent = "Timer paused.";
+    renderTimer();
+    return;
+  }
+
+  timerFeedback.textContent = "Focus timer started.";
+  timerInterval = setInterval(() => {
+    timerSeconds -= 1;
+
+    if (timerSeconds <= 0) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      switchTimerMode();
+    }
+
+    renderTimer();
+  }, 1000);
+
+  renderTimer();
+});
+
+timerReset.addEventListener("click", () => {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  timerMode = "focus";
+  timerSeconds = focusDuration;
+  timerFeedback.textContent = "Timer reset to a fresh focus session.";
+  renderTimer();
+});
+
 // ----------------------------------------
-// 8. Keep the mobile menu accessible
+// 9. Keep the mobile menu accessible
 // ----------------------------------------
 function setMenuState(isOpen) {
   navigation.classList.toggle("is-open", isOpen);
@@ -451,3 +575,5 @@ renderAssignments();
 updateAssignmentSummary();
 renderNotes();
 renderCourses();
+renderTimetable();
+renderTimer();

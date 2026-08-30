@@ -155,30 +155,55 @@
           </div>
         </div>
 
-        <ol class="timeline">
-          <li class="timeline-item timeline-item--current">
-            <time datetime="2026-09-08T10:00">10:00</time>
-            <div>
-              <h3>Web Development</h3>
-              <p>Room B204 · 90 minutes</p>
-            </div>
-          </li>
-          <li class="timeline-item">
-            <time datetime="2026-09-08T13:00">13:00</time>
-            <div>
-              <h3>Academic Writing</h3>
-              <p>Room A103 · 60 minutes</p>
-            </div>
-          </li>
-          <li class="timeline-item">
-            <time datetime="2026-09-08T15:00">15:00</time>
-            <div>
-              <h3>Mathematics</h3>
-              <p>Room C301 · 90 minutes</p>
-            </div>
-          </li>
-        </ol>
+        <ol class="timeline" id="timetable-list"></ol>
+
+        <!-- This small form lets students add a class without editing the page source. -->
+        <form class="timetable-form" id="timetable-form">
+          <div class="form-row">
+            <label>
+              Class time
+              <input id="class-time" name="time" type="time" required>
+            </label>
+            <label>
+              Class name
+              <input id="class-name" name="className" type="text" placeholder="e.g. Mathematics" required>
+            </label>
+          </div>
+          <div class="form-row">
+            <label>
+              Room
+              <input id="class-room" name="room" type="text" placeholder="e.g. C301" required>
+            </label>
+            <label>
+              Duration
+              <select id="class-duration" name="duration">
+                <option value="60">60 minutes</option>
+                <option value="90" selected>90 minutes</option>
+                <option value="120">120 minutes</option>
+              </select>
+            </label>
+          </div>
+          <button class="secondary-button" type="submit">Add class</button>
+        </form>
+        <p class="feedback-message" id="timetable-feedback" role="status" aria-live="polite"></p>
       </aside>
+    </section>
+
+    <!-- Notes, GPA, and focus tools are grouped below the daily workspace. -->
+    <section id="focus-timer" class="dashboard-section panel timer-panel" aria-labelledby="timer-title">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Protect your focus</p>
+          <h2 id="timer-title">Pomodoro timer</h2>
+        </div>
+        <p class="timer-mode" id="timer-mode">Focus session</p>
+      </div>
+      <p class="timer-display" id="timer-display" role="timer" aria-label="25 minutes remaining">25:00</p>
+      <div class="timer-controls">
+        <button class="primary-button" id="timer-start" type="button">Start focus</button>
+        <button class="secondary-button" id="timer-reset" type="button">Reset</button>
+      </div>
+      <p class="feedback-message" id="timer-feedback" role="status" aria-live="polite"></p>
     </section>
 
     <!-- Notes and GPA are focused tools that will grow as the project gains features. -->

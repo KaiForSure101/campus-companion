@@ -4,13 +4,13 @@ Campus Companion is a student dashboard designed to bring daily academic informa
 
 ## Current checkpoint
 
-The project has completed the foundation stage and the first Phase 2 functionality milestones. It currently includes a semantic HTML dashboard, a responsive CSS design system, a working mobile navigation menu, dynamic dashboard values, an assignment tracker, saved notes, a GPA calculator, localStorage persistence, and explanatory comments throughout the source files.
+The project has completed the foundation stage and the first Phase 2 functionality milestones. It currently includes a semantic HTML dashboard, a responsive CSS design system, a working mobile navigation menu, dynamic dashboard values, an assignment tracker, saved notes, a GPA calculator, a timetable editor, a Pomodoro focus timer, shared localStorage helpers, and explanatory comments throughout the source files.
 
 | File | Responsibility |
 |---|---|
 | `index.html` | Defines the page structure, content, navigation, accessibility labels, and semantic sections |
 | `styles.css` | Defines colors, typography, spacing, layout, responsive breakpoints, focus states, and visual feedback |
-| `app.js` | Defines dashboard state, DOM updates, navigation events, assignment, note, and course state, persistence, and user feedback |
+| `app.js` | Defines dashboard state, DOM updates, navigation events, assignments, notes, courses, timetable, timer state, persistence, and user feedback |
 
 ## How the page works
 
@@ -32,10 +32,10 @@ Because this is a static vanilla project, the page can be opened directly by ope
 | CSS variables | The design tokens at the top of `styles.css` |
 | Responsive CSS | The mobile-first rules and the `@media (min-width: 44rem)` section |
 | DOM selection | The grouped `document.querySelector()` calls in `app.js` |
-| State and rendering | `dashboardState`, `assignments`, `notes`, `courses`, and the render functions in `app.js` |
-| Event handling | The menu, assignment, note, course, keyboard, and outside-click listeners in `app.js` |
+| State and rendering | `dashboardState`, `assignments`, `notes`, `courses`, `timetable`, timer state, and the render functions in `app.js` |
+| Event handling | The menu, assignment, note, course, timetable, timer, keyboard, and outside-click listeners in `app.js` |
 | Accessibility | `aria-label`, `aria-expanded`, `aria-controls`, focus styles, and live feedback regions |
 
 ## Planned next stage
 
-The next Phase 2 features are a timetable editor, Pomodoro timer, and dark mode. Each feature will be implemented separately and committed only after review.
+The next bundled milestone is dark mode, settings, accessibility refinements, and responsive quality assurance. Each milestone will be implemented as a meaningful group and committed only after review.
