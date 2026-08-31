@@ -36,6 +36,13 @@ const timerReset = document.querySelector("#timer-reset");
 const timerFeedback = document.querySelector("#timer-feedback");
 const themeToggle = document.querySelector("#theme-toggle");
 const reduceMotionToggle = document.querySelector("#reduce-motion-toggle");
+const authForm = document.querySelector("#auth-form");
+const authEmail = document.querySelector("#auth-email");
+const authStatus = document.querySelector("#auth-status");
+const authActions = document.querySelector(".auth-actions");
+const authSignout = document.querySelector("#auth-signout");
+const cloudSync = document.querySelector("#cloud-sync");
+const authFeedback = document.querySelector("#auth-feedback");
 
 // --------------------------------
 // 2. Store the dashboard's first data
@@ -95,6 +102,7 @@ let notes = loadNotes();
 let courses = loadCourses();
 let timetable = loadTimetable();
 let activeAssignmentFilter = "all";
+let currentUser = null;
 
 // ----------------------------------
 // 3. Create reusable helper functions
@@ -529,8 +537,89 @@ timerReset.addEventListener("click", () => {
   renderTimer();
 });
 
+// ----------------------------------
+// 9. Connect the Supabase account
+// ----------------------------------
+function renderAuthState(session) {
+  currentUser = session?.user ?? null;
+  const isSignedIn = Boolean(currentUser);
+
+  authForm.hidden = isSignedIn;
+  authActions.hidden = !isSignedIn;
+  authStatus.textContent = isSignedIn
+    ? `Signed in as ${currentUser.email}. Your dashboard can be synced to the cloud.`
+    : "Not signed in. Your current data is stored only in this browser.";
+}
+
+async function initializeAuth() {
+  const { data, error } = await campusSupabase.auth.getSession();
+
+  if (error) {
+    authFeedback.textContent = "Cloud account is unavailable right now. Local mode is still working.";
+    return;
+  }
+
+  renderAuthState(data.session);
+  campusSupabase.auth.onAuthStateChange((_event, session) => renderAuthState(session));
+}
+
+authForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const email = authEmail.value.trim();
+  authFeedback.textContent = "Sending your secure sign-in link…";
+
+  const { error } = await campusSupabase.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: window.location.href },
+  });
+
+  authFeedback.textContent = error
+    ? `Could not send the sign-in link: ${error.message}`
+    : "Check your email for a secure sign-in link.";
+});
+
+authSignout.addEventListener("click", async () => {
+  const { error } = await campusSupabase.auth.signOut();
+  authFeedback.textContent = error ? error.message : "You have been signed out. Local data remains on this browser.";
+});
+
+// The first sync copies browser data into the signed-in user's private rows.
+// Later feature work can replace this with per-action cloud mutations.
+async function syncLocalData() {
+  if (!currentUser) return;
+
+  cloudSync.disabled = true;
+  authFeedback.textContent = "Syncing local data…";
+
+  const cloudRows = {
+    assignments: assignments.map(({ id, title, subject, dueDate, priority, completed }) => ({
+      user_id: currentUser.id, title, subject, due_date: dueDate, priority, completed,
+    })),
+    notes: notes.map(({ text }) => ({ user_id: currentUser.id, text })),
+    courses: courses.map(({ courseName, grade }) => ({ user_id: currentUser.id, course_name: courseName, grade })),
+    timetable: timetable.map(({ time, className, room, duration }) => ({
+      user_id: currentUser.id, class_time: time, class_name: className, room, duration,
+    })),
+  };
+
+  for (const [tableName, rows] of Object.entries(cloudRows)) {
+    if (!rows.length) continue;
+    const { error } = await campusSupabase.from(tableName).insert(rows);
+    if (error) {
+      authFeedback.textContent = `Sync stopped while saving ${tableName}. ${error.message}`;
+      cloudSync.disabled = false;
+      return;
+    }
+  }
+
+  authFeedback.textContent = "Local data copied to your private Supabase workspace.";
+  cloudSync.disabled = false;
+}
+
+cloudSync.addEventListener("click", syncLocalData);
+
 // --------------------------------
-// 9. Apply visual preferences
+// 10. Apply visual preferences
 // --------------------------------
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
@@ -565,7 +654,7 @@ reduceMotionToggle.addEventListener("change", () => {
 });
 
 // ----------------------------------------
-// 10. Keep the mobile menu accessible
+// 11. Keep the mobile menu accessible
 // ----------------------------------------
 function setMenuState(isOpen) {
   navigation.classList.toggle("is-open", isOpen);
@@ -604,9 +693,10 @@ document.addEventListener("click", (event) => {
 });
 
 // -----------------------------------
-// 11. Start the page with current data
+// 12. Start the page with current data
 // -----------------------------------
 initializePreferences();
+initializeAuth();
 renderDashboard({
   ...dashboardState,
   openAssignments: assignments.filter((assignment) => !assignment.completed).length,

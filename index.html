@@ -46,6 +46,27 @@
       <a class="primary-button" href="#assignments">View today’s plan</a>
     </section>
 
+    <!-- Account controls keep authentication visible without hiding the local dashboard. -->
+    <section class="dashboard-section auth-panel panel" aria-labelledby="auth-title">
+      <div>
+        <p class="eyebrow">Your private workspace</p>
+        <h2 id="auth-title">Cloud account</h2>
+        <p id="auth-status">Not signed in. Your current data is stored only in this browser.</p>
+      </div>
+      <form class="auth-form" id="auth-form">
+        <label for="auth-email">Email address</label>
+        <div class="auth-form-row">
+          <input id="auth-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+          <button class="secondary-button" type="submit">Send sign-in link</button>
+        </div>
+      </form>
+      <div class="auth-actions" hidden>
+        <button class="secondary-button" id="cloud-sync" type="button">Sync local data</button>
+        <button class="text-button" id="auth-signout" type="button">Sign out</button>
+      </div>
+      <p class="feedback-message" id="auth-feedback" role="status" aria-live="polite"></p>
+    </section>
+
     <!-- Summary cards give students a quick overview before detailed content. -->
     <section class="dashboard-section" aria-labelledby="overview-title">
       <div class="section-heading">

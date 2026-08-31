@@ -592,6 +592,68 @@ main,
   background: var(--color-coral-soft);
 }
 
+/* The account panel makes the cloud connection understandable before sign-in. */
+.auth-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.auth-panel h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 500;
+}
+
+.auth-panel p {
+  color: var(--color-muted);
+}
+
+.auth-panel > div:first-child p:last-child {
+  margin: 0.35rem 0 0;
+  font-size: 0.85rem;
+}
+
+.auth-form {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.auth-form label {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.auth-form-row,
+.auth-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.auth-form-row input {
+  flex: 1 1 14rem;
+}
+
+.auth-actions {
+  justify-content: flex-start;
+}
+
+.text-button {
+  border: 0;
+  padding: 0.55rem 0;
+  color: var(--color-sage-deep);
+  background: transparent;
+  font-weight: 800;
+}
+
+.text-button:hover,
+.text-button:focus-visible {
+  text-decoration: underline;
+}
+
 /* Preferences use the same panel language as the academic tools. */
 .settings-panel {
   display: flex;

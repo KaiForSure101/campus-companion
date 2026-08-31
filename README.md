@@ -30,7 +30,9 @@ Because this is a static vanilla project, the page can be opened directly by ope
 
 The project now includes a browser-safe Supabase client configuration. The URL and publishable key can be present in frontend code; never add a service-role key, database password, or JWT secret to this project. The `supabase-schema.sql` file must be run once in the Supabase SQL Editor. Its policies use `auth.uid()` so signed-in users can only access rows whose `user_id` matches their account.
 
-The current checkpoint verifies that the Supabase client loads without breaking the static dashboard. The next backend step is to add an accessible sign-in experience and replace local-only writes with authenticated cloud synchronization after the schema has been applied.
+The current checkpoint verifies that the Supabase client loads without breaking the static dashboard. The account panel now supports an accessible email magic-link sign-in flow, shows cloud controls only after authentication, and can copy the current local assignments, notes, courses, and timetable into the signed-in user’s private Supabase rows.
+
+The first sync intentionally copies the browser data as a clear learning step. It does not yet replace every local action with live cloud mutations; that will be the next backend refinement after sign-in has been tested with a real account.
 
 ## Learning checkpoints
 
@@ -43,8 +45,10 @@ The current checkpoint verifies that the Supabase client loads without breaking 
 | State and rendering | `dashboardState`, `assignments`, `notes`, `courses`, `timetable`, timer state, and the render functions in `app.js` |
 | Event handling | The menu, assignment, note, course, timetable, timer, keyboard, and outside-click listeners in `app.js` |
 | Accessibility | `aria-label`, `aria-expanded`, `aria-controls`, focus styles, and live feedback regions |
+| Authentication | The `auth-form`, `initializeAuth()`, session listener, magic-link request, and sign-out handler in `app.js` |
+| Cloud sync | `syncLocalData()` maps local browser records to user-owned Supabase rows |
 | Supabase client setup | `supabase-config.js` and the RLS policies in `supabase-schema.sql` |
 
 ## Planned next stage
 
-The next bundled milestone is authenticated sign-in and cloud synchronization for the existing student data. Each milestone will be implemented as a meaningful group and committed only after review.
+The next bundled milestone is testing sign-in with a real account and replacing local-only actions with authenticated cloud synchronization. Each milestone will be implemented as a meaningful group and committed only after review.
