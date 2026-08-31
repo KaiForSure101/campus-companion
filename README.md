@@ -11,6 +11,8 @@ The project has completed the foundation stage and the first Phase 2 functionali
 | `index.html` | Defines the page structure, content, navigation, accessibility labels, and semantic sections |
 | `styles.css` | Defines colors, typography, spacing, layout, responsive breakpoints, focus states, themes, motion preferences, and visual feedback |
 | `app.js` | Defines dashboard state, DOM updates, navigation events, assignments, notes, courses, timetable, timer, preferences, persistence, and user feedback |
+| `supabase-config.js` | Creates the browser-safe Supabase client using the project URL and publishable key |
+| `supabase-schema.sql` | Defines user-owned tables and Row Level Security policies for the cloud data layer |
 
 ## How the page works
 
@@ -24,6 +26,12 @@ The CSS uses custom properties in `:root` as design tokens. This means a color o
 
 Because this is a static vanilla project, the page can be opened directly by opening `index.html` in a browser. During development, a local static server can also be used so the project behaves like a normal website.
 
+## Supabase setup
+
+The project now includes a browser-safe Supabase client configuration. The URL and publishable key can be present in frontend code; never add a service-role key, database password, or JWT secret to this project. The `supabase-schema.sql` file must be run once in the Supabase SQL Editor. Its policies use `auth.uid()` so signed-in users can only access rows whose `user_id` matches their account.
+
+The current checkpoint verifies that the Supabase client loads without breaking the static dashboard. The next backend step is to add an accessible sign-in experience and replace local-only writes with authenticated cloud synchronization after the schema has been applied.
+
 ## Learning checkpoints
 
 | Topic | Where to study it |
@@ -35,7 +43,8 @@ Because this is a static vanilla project, the page can be opened directly by ope
 | State and rendering | `dashboardState`, `assignments`, `notes`, `courses`, `timetable`, timer state, and the render functions in `app.js` |
 | Event handling | The menu, assignment, note, course, timetable, timer, keyboard, and outside-click listeners in `app.js` |
 | Accessibility | `aria-label`, `aria-expanded`, `aria-controls`, focus styles, and live feedback regions |
+| Supabase client setup | `supabase-config.js` and the RLS policies in `supabase-schema.sql` |
 
 ## Planned next stage
 
-The next bundled milestone is backend integration: authentication, database, storage, and shared campus data. Each milestone will be implemented as a meaningful group and committed only after review.
+The next bundled milestone is authenticated sign-in and cloud synchronization for the existing student data. Each milestone will be implemented as a meaningful group and committed only after review.

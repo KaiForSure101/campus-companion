@@ -287,6 +287,9 @@
     <p>Built one understandable feature at a time.</p>
   </footer>
 
+  <!-- Load the browser client before our app script uses the configured connection. -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
   <!-- defer waits until the HTML is parsed before loading JavaScript. -->
   <script src="app.js" defer></script>
 </body>
