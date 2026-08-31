@@ -570,7 +570,7 @@ authForm.addEventListener("submit", async (event) => {
 
   const { error } = await campusSupabase.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: window.location.href },
+    options: { emailRedirectTo: SUPABASE_REDIRECT_URL },
   });
 
   authFeedback.textContent = error

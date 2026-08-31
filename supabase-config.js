@@ -4,6 +4,7 @@
 // only identifies the project; database security still comes from RLS policies.
 const SUPABASE_URL = "https://vktnoehxwswnjhmbwzzv.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_NYnJc9T5JRbbqIBiTSoWwQ_CaErbqxy";
+const SUPABASE_REDIRECT_URL = "https://campus-companion-mu.vercel.app/";
 
 // The CDN script creates the global `supabase` object used here.
 const campusSupabase = window.supabase.createClient(
