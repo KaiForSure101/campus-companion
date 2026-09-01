@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Each page owns focused content while sharing the same visual system. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Plan classes and focus sessions.">
+  <title>Timetable | Campus Companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="timetable">
+  <!-- Shared header: predictable navigation helps users move between tools. -->
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Campus Companion home"><span class="brand-mark" aria-hidden="true">CC</span><span class="brand-name">Campus Companion</span></a>
+    <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
+      <a data-page="dashboard" href="index.html">Dashboard</a><a data-page="assignments" href="assignments.html">Assignments</a><a data-page="notes" href="notes.html">Notes</a><a data-page="timetable" href="timetable.html">Timetable</a><a data-page="gpa" href="gpa.html">GPA</a><a data-page="settings" href="settings.html">Settings</a>
+    </nav>
+    <div class="header-actions"><button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false"><span aria-hidden="true">◐</span><span class="theme-toggle-label">Dark</span></button><button class="menu-button" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation"><span aria-hidden="true">☰</span></button></div>
+  </header>
+
+  <main class="page-main">
+    <section class="page-intro" aria-labelledby="timetable-title"><p class="eyebrow">Plan your day</p><h1 id="timetable-title">Timetable</h1><p>See your classes in chronological order and protect time for focused work.</p></section>
+    <section class="page-grid page-grid--two">
+      <section class="tool-panel panel" aria-labelledby="classes-title"><h2 id="classes-title">Today’s classes</h2><ol class="timeline" id="timetable-list" aria-label="Today’s timetable"></ol><p class="feedback-message" id="timetable-feedback" role="status" aria-live="polite"></p></section>
+      <section class="tool-panel panel" aria-labelledby="add-class-title"><h2 id="add-class-title">Add a class</h2><form class="timetable-form" id="timetable-form"><div class="form-row"><label>Class time<input name="time" type="time" required></label><label>Class name<input name="className" type="text" placeholder="e.g. Mathematics" required></label></div><div class="form-row"><label>Room<input name="room" type="text" placeholder="e.g. C301" required></label><label>Duration<select name="duration"><option value="60">60 minutes</option><option value="90" selected>90 minutes</option><option value="120">120 minutes</option></select></label></div><button class="secondary-button" type="submit">Add class</button></form><div class="timer-card" aria-labelledby="timer-title"><p class="eyebrow">Protect your focus</p><h2 id="timer-title">Pomodoro timer</h2><p class="timer-display" id="timer-display" role="timer" aria-label="25 minutes remaining">25:00</p><p>Use a 25-minute focus block, then take a short break.</p><div class="timer-controls"><button class="primary-button" id="timer-start" type="button">Start focus</button><button class="secondary-button" id="timer-reset" type="button">Reset</button></div><p class="feedback-message" id="timer-feedback" role="status" aria-live="polite"></p></div></section>
+    </section>
+  </main>
+  <footer class="site-footer"><p>Campus Companion</p><p>Built one understandable feature at a time.</p></footer>
+  <script type="module" src="scripts/timetable.js"></script>
+</body>
+</html>

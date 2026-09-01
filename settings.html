@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Settings keeps account and comfort controls away from academic workflows. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Manage preferences and account settings.">
+  <title>Settings | Campus Companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="settings">
+  <!-- Shared header: every page uses the same predictable navigation. -->
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Campus Companion home"><span class="brand-mark" aria-hidden="true">CC</span><span class="brand-name">Campus Companion</span></a>
+    <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation"><a data-page="dashboard" href="index.html">Dashboard</a><a data-page="assignments" href="assignments.html">Assignments</a><a data-page="notes" href="notes.html">Notes</a><a data-page="timetable" href="timetable.html">Timetable</a><a data-page="gpa" href="gpa.html">GPA</a><a data-page="settings" href="settings.html">Settings</a></nav>
+    <div class="header-actions"><button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false"><span aria-hidden="true">◐</span><span class="theme-toggle-label">Dark</span></button><button class="menu-button" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation"><span aria-hidden="true">☰</span></button></div>
+  </header>
+  <main class="page-main">
+    <section class="page-intro" aria-labelledby="settings-title"><p class="eyebrow">Make it yours</p><h1 id="settings-title">Settings</h1><p>Manage the preferences that make Campus Companion comfortable to use.</p></section>
+    <section class="tool-panel panel settings-panel" aria-labelledby="accessibility-title"><h2 id="accessibility-title">Accessibility</h2><p>These preferences are saved in this browser.</p><label class="setting-control"><input id="reduce-motion-toggle" type="checkbox"><span>Reduce motion</span></label><p class="feedback-message" id="settings-feedback" role="status" aria-live="polite"></p></section>
+    <section class="tool-panel panel auth-panel" aria-labelledby="auth-title"><p class="eyebrow">Your private workspace</p><h2 id="auth-title">Cloud account</h2><p id="auth-status">Not signed in. Your current data is stored only in this browser.</p><form class="auth-form" id="auth-form"><label for="auth-email">Email address</label><div class="auth-form-row"><input id="auth-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required><button class="secondary-button" type="submit">Send sign-in link</button></div></form><div class="auth-actions" hidden><button class="secondary-button" id="cloud-sync" type="button">Sync local data</button><button class="text-button" id="auth-signout" type="button">Sign out</button></div><p class="feedback-message" id="auth-feedback" role="status" aria-live="polite"></p></section>
+  </main>
+  <footer class="site-footer"><p>Campus Companion</p><p>Built one understandable feature at a time.</p></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script type="module" src="scripts/settings.js"></script>
+</body>
+</html>

@@ -49,6 +49,14 @@ The first sync intentionally copies the browser data as a clear learning step. I
 | Cloud sync | `syncLocalData()` maps local browser records to user-owned Supabase rows |
 | Supabase client setup | `supabase-config.js` and the RLS policies in `supabase-schema.sql` |
 
+## Multi-page architecture
+
+The project now uses focused HTML pages instead of placing every feature on one long dashboard. `index.html` is the overview, while `assignments.html`, `notes.html`, `timetable.html`, `gpa.html`, and `settings.html` each own one workflow. This keeps the user experience calmer and makes it easier for teammates to find a feature.
+
+The shared `scripts/` directory contains small ES modules. `layout.js` owns the header, responsive navigation, active-page state, and theme button. `storage.js` owns localStorage keys and starter data. `utils.js` contains pure formatting, ID, announcement, and escaping helpers. Feature modules own only their page: `dashboard.js`, `assignments.js`, `notes.js`, `timetable.js`, `gpa.js`, and `settings.js`.
+
+Every page imports the same `styles.css`, so visual changes remain consistent. The original `app.js` is retained as a single-page learning reference; the focused pages use the smaller modules instead.
+
 ## Planned next stage
 
 The next bundled milestone is testing sign-in with a real account and replacing local-only actions with authenticated cloud synchronization. Each milestone will be implemented as a meaningful group and committed only after review.

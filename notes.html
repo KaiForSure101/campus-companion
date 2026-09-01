@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Save ideas and reminders.">
+  <title>Notes | Campus Companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="notes">
+  <!-- Shared header: every page uses the same predictable navigation. -->
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Campus Companion home"><span class="brand-mark" aria-hidden="true">CC</span><span class="brand-name">Campus Companion</span></a>
+    <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
+      <a data-page="dashboard" href="index.html">Dashboard</a><a data-page="assignments" href="assignments.html">Assignments</a><a data-page="notes" href="notes.html">Notes</a><a data-page="timetable" href="timetable.html">Timetable</a><a data-page="gpa" href="gpa.html">GPA</a><a data-page="settings" href="settings.html">Settings</a>
+    </nav>
+    <div class="header-actions"><button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false"><span aria-hidden="true">◐</span><span class="theme-toggle-label">Dark</span></button><button class="menu-button" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation"><span aria-hidden="true">☰</span></button></div>
+  </header>
+  <main class="page-main"><section class="page-intro" aria-labelledby="notes-title"><p class="eyebrow">Capture ideas</p><h1 id="notes-title">Notes</h1><p>Keep a small record of thoughts, reminders, and ideas.</p></section><section class="tool-panel panel"><form class="note-form" id="note-form"><label class="sr-only" for="note-text">Write a note</label><textarea id="note-text" rows="5" maxlength="280" placeholder="What is on your mind?" required></textarea><div class="note-form-footer"><span class="character-limit">280 characters maximum</span><button class="secondary-button" type="submit">Save note</button></div></form><ul class="note-list" id="note-list" aria-label="Saved notes"></ul><p class="feedback-message" id="note-feedback" role="status" aria-live="polite"></p></section></main>
+  <footer class="site-footer"><p>Campus Companion</p><p>Built one understandable feature at a time.</p></footer>
+  <script type="module" src="scripts/notes.js"></script>
+</body></html>

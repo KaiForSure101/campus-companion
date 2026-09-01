@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Calculate your current GPA.">
+  <title>GPA Calculator | Campus Companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="gpa">
+  <!-- Shared header: every page uses the same predictable navigation. -->
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Campus Companion home"><span class="brand-mark" aria-hidden="true">CC</span><span class="brand-name">Campus Companion</span></a>
+    <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
+      <a data-page="dashboard" href="index.html">Dashboard</a><a data-page="assignments" href="assignments.html">Assignments</a><a data-page="notes" href="notes.html">Notes</a><a data-page="timetable" href="timetable.html">Timetable</a><a data-page="gpa" href="gpa.html">GPA</a><a data-page="settings" href="settings.html">Settings</a>
+    </nav>
+    <div class="header-actions"><button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false"><span aria-hidden="true">◐</span><span class="theme-toggle-label">Dark</span></button><button class="menu-button" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation"><span aria-hidden="true">☰</span></button></div>
+  </header>
+  <main class="page-main"><section class="page-intro" aria-labelledby="gpa-title"><p class="eyebrow">Track progress</p><h1 id="gpa-title">GPA calculator</h1><p>Add courses one at a time to keep the calculation transparent.</p></section><section class="tool-panel panel"><div class="gpa-heading"><h2>Current result</h2><p class="gpa-result" id="gpa-result" aria-live="polite">GPA 0.00</p></div><form class="gpa-form" id="gpa-form"><label>Course name<input name="courseName" type="text" placeholder="e.g. Web Development" required></label><label>Grade<select name="grade"><option value="4" data-label="A">A</option><option value="3" data-label="B" selected>B</option><option value="2" data-label="C">C</option><option value="1" data-label="D">D</option><option value="0" data-label="F">F</option></select></label><input type="hidden" name="label" value="B"><button class="secondary-button" type="submit">Add course</button></form><ul class="course-list" id="course-list" aria-label="Courses included in GPA"></ul><p class="feedback-message" id="gpa-feedback" role="status" aria-live="polite"></p></section></main>
+  <footer class="site-footer"><p>Campus Companion</p><p>Built one understandable feature at a time.</p></footer>
+  <script type="module" src="scripts/gpa.js"></script>
+</body></html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Track assignments and due dates.">
+  <title>Assignments | Campus Companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="assignments">
+  <!-- Shared header: every page uses the same predictable navigation. -->
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Campus Companion home"><span class="brand-mark" aria-hidden="true">CC</span><span class="brand-name">Campus Companion</span></a>
+    <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
+      <a data-page="dashboard" href="index.html">Dashboard</a><a data-page="assignments" href="assignments.html">Assignments</a><a data-page="notes" href="notes.html">Notes</a><a data-page="timetable" href="timetable.html">Timetable</a><a data-page="gpa" href="gpa.html">GPA</a><a data-page="settings" href="settings.html">Settings</a>
+    </nav>
+    <div class="header-actions"><button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false"><span aria-hidden="true">◐</span><span class="theme-toggle-label">Dark</span></button><button class="menu-button" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation"><span aria-hidden="true">☰</span></button></div>
+  </header>
+  <main class="page-main"><section class="page-intro" aria-labelledby="assignments-title"><p class="eyebrow">Stay ahead</p><h1 id="assignments-title">Assignments</h1><p>Turn upcoming work into a clear, manageable list.</p></section><section class="tool-panel panel"><form class="assignment-form" id="assignment-form"><div class="form-row"><label>Assignment title<input name="title" type="text" placeholder="e.g. Portfolio wireframes" required></label><label>Subject<input name="subject" type="text" placeholder="e.g. Web Development" required></label></div><div class="form-row"><label>Due date<input name="dueDate" type="date" required></label><label>Priority<select name="priority"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="urgent">Urgent</option></select></label></div><button class="secondary-button" type="submit">Add assignment</button></form><div class="assignment-toolbar"><label for="assignment-filter">Show</label><select id="assignment-filter"><option value="all">All assignments</option><option value="open">Open assignments</option><option value="completed">Completed assignments</option></select></div><ul class="assignment-list" id="assignment-list" aria-label="Assignments"></ul><p class="feedback-message" id="assignment-feedback" role="status" aria-live="polite"></p></section></main>
+  <footer class="site-footer"><p>Campus Companion</p><p>Built one understandable feature at a time.</p></footer>
+  <script type="module" src="scripts/assignments.js"></script>
+</body></html>

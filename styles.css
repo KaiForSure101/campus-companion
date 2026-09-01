@@ -1118,3 +1118,29 @@ main,
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* ------------------------------
+   Multi-page architecture styles
+   ------------------------------ */
+.page-main { width: min(100% - 2rem, 70rem); margin: 0 auto; padding: 2rem 0 5rem; }
+.page-hero { margin-bottom: 2rem; }
+.page-intro { max-width: 42rem; margin: 1rem 0 2rem; }
+.page-intro h1 { margin: 0.25rem 0 0.75rem; font-family: var(--font-display); font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 500; letter-spacing: -0.06em; }
+.page-intro p:last-child, .tool-panel > p { color: var(--color-muted); }
+.page-grid { display: grid; gap: 1rem; margin-top: 1rem; }
+.page-grid--two { grid-template-columns: 1.15fr 0.85fr; align-items: start; }
+.tool-panel { display: grid; gap: 1rem; }
+.tool-panel h2 { margin: 0; font-family: var(--font-display); font-size: 1.8rem; font-weight: 500; }
+.tool-panel .secondary-button { justify-self: start; }
+.gpa-heading { display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
+.course-item { display: grid; grid-template-columns: 1fr auto auto; gap: 1rem; align-items: center; padding: 0.9rem 0; border-bottom: 1px solid var(--color-line); }
+.course-item strong { color: var(--color-sage-deep); }
+.course-delete { border: 0; color: var(--color-muted); background: transparent; cursor: pointer; }
+.timer-card { margin-top: 1rem; padding-top: 1.25rem; border-top: 1px solid var(--color-line); }
+.timer-card h2 { margin-top: 0.25rem; }
+.site-nav a[aria-current="page"] { color: var(--color-ink); font-weight: 800; }
+.site-nav--open { display: grid !important; }
+.reduce-motion *, .reduce-motion *::before, .reduce-motion *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+@media (min-width: 44rem) { .page-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 43.99rem) { .page-grid--two { grid-template-columns: 1fr; } .gpa-heading { align-items: start; flex-direction: column; } }
