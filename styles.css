@@ -609,6 +609,22 @@ main,
   color: var(--color-muted);
 }
 
+/* This notice makes the intentional school-demo trade-off visible to testers. */
+.demo-notice {
+  margin: 0;
+  padding: 0.8rem 1rem;
+  border-left: 3px solid var(--color-sage-deep);
+  border-radius: 0.55rem;
+  color: var(--color-ink) !important;
+  background: var(--color-sage-soft);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.auth-form > input {
+  width: 100%;
+}
+
 .auth-panel > div:first-child p:last-child {
   margin: 0.35rem 0 0;
   font-size: 0.85rem;
