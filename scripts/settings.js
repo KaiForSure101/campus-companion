@@ -59,7 +59,10 @@ authForm.addEventListener('submit', async (event) => {
   const { email, password } = credentials();
   const { data, error } = await campusSupabase.auth.signUp({ email, password });
   if (error) {
-    authFeedback.textContent = `Could not create the account: ${error.message}`;
+    const networkHint = error.message.toLowerCase().includes('fetch') || error.message.toLowerCase().includes('network')
+      ? ' Check your connection, disable an ad blocker for this site, and try again.'
+      : '';
+    authFeedback.textContent = `Could not create the account: ${error.message}.${networkHint}`;
     return;
   }
   renderAuthState(data.session);
@@ -70,7 +73,14 @@ authLogin.addEventListener('click', async () => {
   authFeedback.textContent = 'Signing you in…';
   const { email, password } = credentials();
   const { error } = await campusSupabase.auth.signInWithPassword({ email, password });
-  authFeedback.textContent = error ? `Could not sign in: ${error.message}` : 'Signed in successfully.';
+  if (error) {
+    const networkHint = error.message.toLowerCase().includes('fetch') || error.message.toLowerCase().includes('network')
+      ? ' Check your connection, disable an ad blocker for this site, and try again.'
+      : '';
+    authFeedback.textContent = `Could not sign in: ${error.message}.${networkHint}`;
+    return;
+  }
+  authFeedback.textContent = 'Signed in successfully.';
 });
 
 authSignout.addEventListener('click', async () => {

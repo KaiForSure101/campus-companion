@@ -15,6 +15,29 @@ const timerDisplay = document.querySelector('#timer-display');
 const timerStart = document.querySelector('#timer-start');
 const timerReset = document.querySelector('#timer-reset');
 const timerFeedback = document.querySelector('#timer-feedback');
+const timerSoundToggle = document.querySelector('#timer-sound-toggle');
+
+// Browsers allow audio after a user gesture, and pressing Start focus is one.
+let audioContext;
+function playCompletionSound() {
+  if (!timerSoundToggle?.checked) return;
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContext) return;
+  audioContext ??= new AudioContext();
+  const startTime = audioContext.currentTime;
+  [0, 0.22, 0.44].forEach((offset, index) => {
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    oscillator.type = 'sine';
+    oscillator.frequency.value = index === 2 ? 880 : 660;
+    gain.gain.setValueAtTime(0.0001, startTime + offset);
+    gain.gain.exponentialRampToValueAtTime(0.18, startTime + offset + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, startTime + offset + 0.18);
+    oscillator.connect(gain).connect(audioContext.destination);
+    oscillator.start(startTime + offset);
+    oscillator.stop(startTime + offset + 0.2);
+  });
+}
 
 function renderTimetable() {
   const sorted = [...timetable].sort((a, b) => a.time.localeCompare(b.time));
@@ -69,7 +92,8 @@ timerStart?.addEventListener('click', () => {
     renderTimer();
     if (secondsRemaining <= 0) {
       stopTimer();
-      announce(timerFeedback, 'Focus session complete. Take a short break.');
+      playCompletionSound();
+      announce(timerFeedback, timerSoundToggle?.checked ? 'Focus session complete. A sound played; take a short break.' : 'Focus session complete. Take a short break.');
     }
   }, 1000);
   announce(timerFeedback, 'Focus timer started.');

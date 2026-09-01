@@ -47,6 +47,7 @@ The first sync intentionally copies the browser data as a clear learning step. I
 | Accessibility | `aria-label`, `aria-expanded`, `aria-controls`, focus styles, and live feedback regions |
 | Authentication | The `auth-form`, `initializeAuth()`, password sign-up/sign-in handlers, session listener, and sign-out handler in `scripts/settings.js` |
 | Cloud sync | `syncLocalData()` maps local browser records to user-owned Supabase rows |
+| Pomodoro sound | `playCompletionSound()` uses the browser Web Audio API to play a short three-note chime when enabled |
 | Supabase client setup | `supabase-config.js` and the RLS policies in `supabase-schema.sql` |
 
 ## Multi-page architecture
@@ -59,4 +60,4 @@ Every page imports the same `styles.css`, so visual changes remain consistent. T
 
 ## Planned next stage
 
-For this school demonstration, **Confirm email is disabled** in the Supabase dashboard so account testing does not depend on magic-link delivery or a custom email provider. This is intentionally simpler for learning, but it is not an appropriate production security configuration. The next bundled milestone is replacing local-only actions with authenticated cloud synchronization. Each milestone will be implemented as a meaningful group and committed only after review.
+For this school demonstration, **Confirm email is disabled** in the Supabase dashboard so account testing does not depend on magic-link delivery or a custom email provider. This is intentionally simpler for learning, but it is not an appropriate production security configuration. If sign-up shows a browser `NetworkError` while the Supabase project is online, check the connection and disable browser extensions or network filters that block requests to `supabase.co`. The next bundled milestone is replacing local-only actions with authenticated cloud synchronization. Each milestone will be implemented as a meaningful group and committed only after review.
