@@ -16,6 +16,8 @@ const authLogin = document.querySelector('#auth-login');
 const authSignout = document.querySelector('#auth-signout');
 const cloudSync = document.querySelector('#cloud-sync');
 const authFeedback = document.querySelector('#auth-feedback');
+const localDemoButton = document.querySelector('#local-demo');
+const LOCAL_DEMO_KEY = 'campus-companion-local-demo-email';
 
 // Reduced motion is a browser preference, so it is stored locally.
 const savedMotion = localStorage.getItem(STORAGE_KEYS.reducedMotion) === 'true';
@@ -28,17 +30,28 @@ motionToggle.addEventListener('change', () => {
 });
 
 let currentUser = null;
+let localDemoEmail = localStorage.getItem(LOCAL_DEMO_KEY);
+let localDemoActive = Boolean(localDemoEmail);
+
 function renderAuthState(session) {
   currentUser = session?.user ?? null;
-  const signedIn = Boolean(currentUser);
+  const signedIn = Boolean(currentUser) || localDemoActive;
   authForm.hidden = signedIn;
   authActions.hidden = !signedIn;
-  authStatus.textContent = signedIn
-    ? `Signed in as ${currentUser.email}. Your data can be synced to the cloud.`
-    : 'Not signed in. Your current data is stored only in this browser.';
+  cloudSync.hidden = localDemoActive;
+  localDemoButton.hidden = signedIn || !localDemoButton.dataset.available;
+  authStatus.textContent = localDemoActive
+    ? `Local demo mode for ${localDemoEmail}. Data stays in this browser; cloud sync is unavailable.`
+    : currentUser
+      ? `Signed in as ${currentUser.email}. Your data can be synced to the cloud.`
+      : 'Not signed in. Your current data is stored only in this browser.';
 }
 
 async function initializeAuth() {
+  if (localDemoActive) {
+    renderAuthState(null);
+    return;
+  }
   const { data, error } = await campusSupabase.auth.getSession();
   if (error) {
     authFeedback.textContent = 'Cloud account is unavailable. Local mode is still working.';
@@ -109,7 +122,13 @@ authForm.addEventListener('submit', async (event) => {
     const networkHint = isNetworkError(error)
       ? ' Check your connection, disable an ad blocker for this site, and try again.'
       : '';
-    authFeedback.textContent = `Could not create the account: ${error.message}.${networkHint}`;
+    if (isNetworkError(error)) {
+      localDemoButton.dataset.available = 'true';
+      localDemoButton.hidden = false;
+      authFeedback.textContent = `${error.message}.${networkHint} You can use local demo mode for the presentation.`;
+    } else {
+      authFeedback.textContent = `Could not create the account: ${error.message}.${networkHint}`;
+    }
     return;
   }
   // The direct REST response does not automatically update the client session.
@@ -138,13 +157,36 @@ authLogin.addEventListener('click', async () => {
     const networkHint = isNetworkError(error)
       ? ' Check your connection, disable an ad blocker for this site, and try again.'
       : '';
-    authFeedback.textContent = `Could not sign in: ${error.message}.${networkHint}`;
+    if (isNetworkError(error)) {
+      localDemoButton.dataset.available = 'true';
+      localDemoButton.hidden = false;
+      authFeedback.textContent = `${error.message}.${networkHint} You can use local demo mode for the presentation.`;
+    } else {
+      authFeedback.textContent = `Could not sign in: ${error.message}.${networkHint}`;
+    }
     return;
   }
   authFeedback.textContent = 'Signed in successfully.';
 });
 
+localDemoButton.addEventListener('click', () => {
+  localDemoEmail = authEmail.value.trim() || 'presentation-demo';
+  localStorage.setItem(LOCAL_DEMO_KEY, localDemoEmail);
+  localDemoActive = true;
+  localDemoButton.dataset.available = '';
+  renderAuthState(null);
+  authFeedback.textContent = 'Local demo mode enabled. Your feature data remains available in this browser.';
+});
+
 authSignout.addEventListener('click', async () => {
+  if (localDemoActive) {
+    localStorage.removeItem(LOCAL_DEMO_KEY);
+    localDemoEmail = null;
+    localDemoActive = false;
+    renderAuthState(null);
+    authFeedback.textContent = 'Local demo mode ended. Local feature data remains in this browser.';
+    return;
+  }
   const { error } = await campusSupabase.auth.signOut();
   authFeedback.textContent = error ? error.message : 'You have been signed out. Local data remains in this browser.';
 });
