@@ -52,29 +52,53 @@ function credentials() {
   return { email: authEmail.value.trim(), password: authPassword.value };
 }
 
+function isNetworkError(error) {
+  const message = error?.message?.toLowerCase() ?? '';
+  return message.includes('fetch') || message.includes('network');
+}
+
+// A direct fetch gives the browser one simpler path if the client wrapper fails.
+async function directAuthRequest(path, body) {
+  const response = await fetch(`${window.CAMPUS_SUPABASE_URL}/auth/v1/${path}`, {
+    method: 'POST',
+    headers: { apikey: window.CAMPUS_SUPABASE_PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) return { error: { message: payload.msg || payload.error_description || 'Authentication request failed.', status: response.status } };
+  return { data: payload, error: null };
+}
+
 // Demo sign-up uses password authentication, so no email provider is required.
 authForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   authFeedback.textContent = 'Creating your demo account…';
   const { email, password } = credentials();
-  const { data, error } = await campusSupabase.auth.signUp({ email, password });
+  let { data, error } = await campusSupabase.auth.signUp({ email, password });
+  if (error && isNetworkError(error)) ({ data, error } = await directAuthRequest('signup', { email, password }));
   if (error) {
-    const networkHint = error.message.toLowerCase().includes('fetch') || error.message.toLowerCase().includes('network')
+    const networkHint = isNetworkError(error)
       ? ' Check your connection, disable an ad blocker for this site, and try again.'
       : '';
     authFeedback.textContent = `Could not create the account: ${error.message}.${networkHint}`;
     return;
   }
-  renderAuthState(data.session);
-  authFeedback.textContent = data.session ? 'Demo account created and signed in.' : 'Account created. Check the Supabase email-confirmation setting if sign-in is not immediate.';
+  // The direct REST response does not automatically update the client session.
+  if (data?.access_token && data?.refresh_token) {
+    await campusSupabase.auth.setSession({ access_token: data.access_token, refresh_token: data.refresh_token });
+  }
+  const session = (await campusSupabase.auth.getSession()).data.session;
+  renderAuthState(session);
+  authFeedback.textContent = session ? 'Demo account created and signed in.' : 'Account created. You can now use Sign in.';
 });
 
 authLogin.addEventListener('click', async () => {
   authFeedback.textContent = 'Signing you in…';
   const { email, password } = credentials();
-  const { error } = await campusSupabase.auth.signInWithPassword({ email, password });
+  let { error } = await campusSupabase.auth.signInWithPassword({ email, password });
+  if (error && isNetworkError(error)) ({ error } = await directAuthRequest('token?grant_type=password', { email, password }));
   if (error) {
-    const networkHint = error.message.toLowerCase().includes('fetch') || error.message.toLowerCase().includes('network')
+    const networkHint = isNetworkError(error)
       ? ' Check your connection, disable an ad blocker for this site, and try again.'
       : '';
     authFeedback.textContent = `Could not sign in: ${error.message}.${networkHint}`;
