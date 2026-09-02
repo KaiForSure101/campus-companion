@@ -52,18 +52,38 @@ function credentials() {
   return { email: authEmail.value.trim(), password: authPassword.value };
 }
 
+const REQUEST_TIMEOUT_MS = 8000;
+
 function isNetworkError(error) {
   const message = error?.message?.toLowerCase() ?? '';
-  return message.includes('fetch') || message.includes('network');
+  return message.includes('fetch') || message.includes('network') || message.includes('timed out');
+}
+
+function withTimeout(promise, label) {
+  let timeoutId;
+  const timeout = new Promise((_, reject) => {
+    timeoutId = window.setTimeout(() => reject(new Error(`${label} timed out after 8 seconds`)), REQUEST_TIMEOUT_MS);
+  });
+  return Promise.race([promise, timeout]).finally(() => window.clearTimeout(timeoutId));
 }
 
 // A direct fetch gives the browser one simpler path if the client wrapper fails.
 async function directAuthRequest(path, body) {
-  const response = await fetch(`${window.CAMPUS_SUPABASE_URL}/auth/v1/${path}`, {
-    method: 'POST',
-    headers: { apikey: window.CAMPUS_SUPABASE_PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  let response;
+  try {
+    response = await fetch(`${window.CAMPUS_SUPABASE_URL}/auth/v1/${path}`, {
+      method: 'POST',
+      headers: { apikey: window.CAMPUS_SUPABASE_PUBLISHABLE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+  } catch (error) {
+    throw new Error(error.name === 'AbortError' ? 'Direct authentication request timed out after 8 seconds' : error.message);
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) return { error: { message: payload.msg || payload.error_description || 'Authentication request failed.', status: response.status } };
   return { data: payload, error: null };
@@ -74,8 +94,17 @@ authForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   authFeedback.textContent = 'Creating your demo account…';
   const { email, password } = credentials();
-  let { data, error } = await campusSupabase.auth.signUp({ email, password });
-  if (error && isNetworkError(error)) ({ data, error } = await directAuthRequest('signup', { email, password }));
+  let data;
+  let error;
+  try {
+    ({ data, error } = await withTimeout(campusSupabase.auth.signUp({ email, password }), 'Supabase sign-up'));
+  } catch (requestError) {
+    error = requestError;
+  }
+  if (error && isNetworkError(error)) {
+    try { ({ data, error } = await directAuthRequest('signup', { email, password })); }
+    catch (requestError) { error = requestError; }
+  }
   if (error) {
     const networkHint = isNetworkError(error)
       ? ' Check your connection, disable an ad blocker for this site, and try again.'
@@ -95,8 +124,16 @@ authForm.addEventListener('submit', async (event) => {
 authLogin.addEventListener('click', async () => {
   authFeedback.textContent = 'Signing you in…';
   const { email, password } = credentials();
-  let { error } = await campusSupabase.auth.signInWithPassword({ email, password });
-  if (error && isNetworkError(error)) ({ error } = await directAuthRequest('token?grant_type=password', { email, password }));
+  let error;
+  try {
+    ({ error } = await withTimeout(campusSupabase.auth.signInWithPassword({ email, password }), 'Supabase sign-in'));
+  } catch (requestError) {
+    error = requestError;
+  }
+  if (error && isNetworkError(error)) {
+    try { ({ error } = await directAuthRequest('token?grant_type=password', { email, password })); }
+    catch (requestError) { error = requestError; }
+  }
   if (error) {
     const networkHint = isNetworkError(error)
       ? ' Check your connection, disable an ad blocker for this site, and try again.'
