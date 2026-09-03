@@ -159,9 +159,10 @@ authForm.addEventListener('submit', async (event) => {
 authLogin.addEventListener('click', async () => {
   authFeedback.textContent = 'Signing you in…';
   const { email, password } = credentials();
+  let data;
   let error;
   try {
-    ({ error } = await withTimeout(campusSupabase.auth.signInWithPassword({ email, password }), 'Supabase sign-in'));
+    ({ data, error } = await withTimeout(campusSupabase.auth.signInWithPassword({ email, password }), 'Supabase sign-in'));
   } catch (requestError) {
     error = requestError;
   }
