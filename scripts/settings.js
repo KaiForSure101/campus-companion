@@ -65,6 +65,11 @@ function credentials() {
   return { email: authEmail.value.trim(), password: authPassword.value };
 }
 
+// Clear credentials after a successful action so passwords are not left in the form.
+function clearAuthFields() {
+  authForm.reset();
+}
+
 const REQUEST_TIMEOUT_MS = 8000;
 
 function isNetworkError(error) {
@@ -152,6 +157,7 @@ authForm.addEventListener('submit', async (event) => {
     await campusSupabase.auth.setSession({ access_token: data.access_token, refresh_token: data.refresh_token });
   }
   const session = (await campusSupabase.auth.getSession()).data.session;
+  clearAuthFields();
   renderAuthState(session);
   authFeedback.textContent = session ? 'Demo account created and signed in.' : 'Account created. You can now use Sign in.';
 });
@@ -191,6 +197,7 @@ authLogin.addEventListener('click', async () => {
     await campusSupabase.auth.setSession({ access_token: data.access_token, refresh_token: data.refresh_token });
     renderAuthState((await campusSupabase.auth.getSession()).data.session);
   }
+  clearAuthFields();
   authFeedback.textContent = 'Signed in successfully.';
 });
 
@@ -199,6 +206,7 @@ localDemoButton.addEventListener('click', () => {
   localStorage.setItem(LOCAL_DEMO_KEY, localDemoEmail);
   localDemoActive = true;
   localDemoButton.dataset.available = '';
+  clearAuthFields();
   renderAuthState(null);
   authFeedback.textContent = 'Local demo mode enabled. Your feature data remains available in this browser.';
 });
