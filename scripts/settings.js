@@ -102,6 +102,18 @@ async function directAuthRequest(path, body) {
   return { data: payload, error: null };
 }
 
+// Same-origin fallback: Vercel contacts Supabase server-to-server if the browser route is blocked.
+async function proxyAuthRequest(action, body) {
+  const response = await fetch('/api/auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action, ...body }),
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) return { error: { message: payload.msg || payload.error_description || payload.error || 'Authentication proxy failed.', status: response.status } };
+  return { data: payload, error: null };
+}
+
 // Demo sign-up uses password authentication, so no email provider is required.
 authForm.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -116,6 +128,10 @@ authForm.addEventListener('submit', async (event) => {
   }
   if (error && isNetworkError(error)) {
     try { ({ data, error } = await directAuthRequest('signup', { email, password })); }
+    catch (requestError) { error = requestError; }
+  }
+  if (error && isNetworkError(error)) {
+    try { ({ data, error } = await proxyAuthRequest('signup', { email, password })); }
     catch (requestError) { error = requestError; }
   }
   if (error) {
@@ -153,6 +169,10 @@ authLogin.addEventListener('click', async () => {
     try { ({ error } = await directAuthRequest('token?grant_type=password', { email, password })); }
     catch (requestError) { error = requestError; }
   }
+  if (error && isNetworkError(error)) {
+    try { ({ data, error } = await proxyAuthRequest('signin', { email, password })); }
+    catch (requestError) { error = requestError; }
+  }
   if (error) {
     const networkHint = isNetworkError(error)
       ? ' Check your connection, disable an ad blocker for this site, and try again.'
@@ -165,6 +185,10 @@ authLogin.addEventListener('click', async () => {
       authFeedback.textContent = `Could not sign in: ${error.message}.${networkHint}`;
     }
     return;
+  }
+  if (data?.access_token && data?.refresh_token) {
+    await campusSupabase.auth.setSession({ access_token: data.access_token, refresh_token: data.refresh_token });
+    renderAuthState((await campusSupabase.auth.getSession()).data.session);
   }
   authFeedback.textContent = 'Signed in successfully.';
 });
