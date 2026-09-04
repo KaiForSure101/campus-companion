@@ -22,9 +22,126 @@ The JavaScript first stores references to the important HTML elements. It then k
 
 The CSS uses custom properties in `:root` as design tokens. This means a color or shadow can be changed in one place and reused throughout the page. The layout is mobile-first: the default rules support small screens, while the `44rem` media query adds the wider desktop navigation and multi-column dashboard layout.
 
-## Running the current version
+## How to build and run the project
 
-Because this is a static vanilla project, the page can be opened directly by opening `index.html` in a browser. During development, a local static server can also be used so the project behaves like a normal website.
+Campus Companion is a static vanilla web project. It does not require a frontend framework, bundler, or package installation for normal development. The main build step is preparing the HTML, CSS, JavaScript, and Supabase configuration files, then serving the project directory through a local web server.
+
+### 1. Clone the repository
+
+Make sure Git is installed, then clone the private repository and enter its folder:
+
+```bash
+git clone https://github.com/KaiForSure101/campus-companion.git
+cd campus-companion
+```
+
+If you already cloned the project, update it before working:
+
+```bash
+git pull origin main
+```
+
+### 2. Check the project structure
+
+The important files and folders should look similar to this:
+
+```text
+campus-companion/
+├── index.html
+├── assignments.html
+├── notes.html
+├── timetable.html
+├── gpa.html
+├── settings.html
+├── styles.css
+├── supabase-config.js
+├── supabase-schema.sql
+├── api/
+│   └── auth.js
+└── scripts/
+    ├── layout.js
+    ├── storage.js
+    ├── utils.js
+    ├── dashboard.js
+    ├── assignments.js
+    ├── notes.js
+    ├── timetable.js
+    ├── gpa.js
+    └── settings.js
+```
+
+### 3. Configure Supabase
+
+Open `supabase-config.js` and confirm that it contains the correct Supabase project URL and browser-safe publishable key. The publishable key may be used in frontend code. Never place a service-role key, database password, or JWT secret in this repository.
+
+If the database has not been prepared yet, open the Supabase SQL Editor and run `supabase-schema.sql` once. The schema creates the user-owned tables and Row Level Security policies required by the cloud data layer. No SQL command is needed for the Pomodoro sound, theme, localStorage, or frontend-only UI features.
+
+### 4. Run the project locally
+
+The recommended method is to use a simple static server. Python is commonly available on Windows, macOS, and Linux:
+
+```bash
+python -m http.server 4173
+```
+
+Then open [http://127.0.0.1:4173/index.html](http://127.0.0.1:4173/index.html) in a browser. Open the other pages directly when testing their workflows:
+
+```text
+http://127.0.0.1:4173/assignments.html
+http://127.0.0.1:4173/notes.html
+http://127.0.0.1:4173/timetable.html
+http://127.0.0.1:4173/gpa.html
+http://127.0.0.1:4173/settings.html
+```
+
+Keep the terminal window running while testing. Press `Ctrl + C` in that terminal to stop the server.
+
+You can open `index.html` directly without a server for basic visual inspection, but a local server is preferred because ES modules, relative paths, and the Vercel authentication function behave more like the deployed site.
+
+### 5. Test the main workflows
+
+Use the dashboard navigation to visit every page. Add and delete an assignment, create and search a note, add a timetable class, calculate a GPA, and start the Pomodoro timer. Refresh the page after adding local data to confirm that localStorage persistence works. Toggle dark mode and resize the browser to check responsive behavior.
+
+For authentication, open Settings and try **Create demo account** or **Sign in**. The page attempts Supabase Auth, a direct Auth request, and the same-origin `/api/auth` fallback. If the network blocks all authentication routes, the clearly labeled **Continue in local demo mode** option is available for presentations. Local demo mode does not create a Supabase account or sync data to the cloud.
+
+### 6. Check JavaScript before committing
+
+The project does not have a required package-based build command. Before committing JavaScript changes, run a syntax check for the changed module:
+
+```bash
+node --check scripts/settings.js
+node --check scripts/assignments.js
+node --check scripts/notes.js
+node --check scripts/timetable.js
+node --check scripts/gpa.js
+```
+
+Also check for whitespace mistakes and review the changed files:
+
+```bash
+git diff --check
+git status
+git diff
+```
+
+### 7. Deploy to Vercel
+
+The project is deployed on Vercel. After committing and pushing to the connected GitHub branch, Vercel automatically creates a new deployment. The current live site is [campus-companion-mu.vercel.app](https://campus-companion-mu.vercel.app/).
+
+For a manual deployment, install and authenticate with the Vercel CLI, then run:
+
+```bash
+npx vercel
+```
+
+For a production deployment, use:
+
+```bash
+npx vercel --prod
+```
+
+After deployment, test the live versions of `index.html`, `settings.html`, and `timetable.html`. Use a cache-busting query such as `settings.html?test=1` if an older browser cache appears to be loading.
+
 
 ## Supabase setup
 
