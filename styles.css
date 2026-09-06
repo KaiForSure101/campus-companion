@@ -1433,3 +1433,67 @@ textarea:focus {
 .timer-sound-control input {
   accent-color: var(--color-sage-deep);
 }
+
+/* Custom timer duration controls keep focus and break settings visible beside the timer. */
+.timer-mode {
+  margin: 0.25rem 0 0;
+  color: var(--color-sage-deep);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.timer-settings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  align-items: end;
+  margin-top: 1rem;
+  padding: 0.85rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-small);
+  background: var(--color-paper);
+}
+
+.timer-settings label {
+  display: grid;
+  gap: 0.3rem;
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.timer-settings input {
+  width: 100%;
+  min-height: 2.35rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.65rem;
+  color: var(--color-ink);
+  background: var(--color-surface);
+  font: inherit;
+}
+
+.timer-settings input:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.timer-settings label span {
+  color: var(--color-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.timer-settings .secondary-button {
+  grid-column: 1 / -1;
+  min-height: 2.35rem;
+  padding-block: 0.5rem;
+}
+
+@media (max-width: 43.99rem) {
+  .timer-settings {
+    grid-template-columns: 1fr 1fr;
+  }
+}

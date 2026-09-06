@@ -6,6 +6,7 @@ export const STORAGE_KEYS = {
   timetable: 'campus-companion-timetable',
   theme: 'campus-companion-theme',
   reducedMotion: 'campus-companion-reduced-motion',
+  timerSettings: 'campus-companion-timer-settings',
 };
 
 export const starterAssignments = [
