@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Manage your Campus Companion profile and profile picture.">
+  <title>Profile | Campus Companion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="profile">
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Campus Companion home"><span class="brand-mark" aria-hidden="true">CC</span><span class="brand-name">Campus Companion</span></a>
+    <nav class="site-nav" id="primary-navigation" aria-label="Primary navigation">
+      <a data-page="dashboard" href="index.html">Dashboard</a><a data-page="assignments" href="assignments.html">Assignments</a><a data-page="notes" href="notes.html">Notes</a><a data-page="timetable" href="timetable.html">Timetable</a><a data-page="gpa" href="gpa.html">GPA</a><a data-page="profile" href="profile.html">Profile</a><a data-page="settings" href="settings.html">Settings</a>
+    </nav>
+    <div class="header-actions"><button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false"><span aria-hidden="true">◐</span><span class="theme-toggle-label">Dark</span></button><button class="menu-button" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-navigation"><span aria-hidden="true">☰</span></button></div>
+  </header>
+
+  <main class="page-main">
+    <section class="page-intro" aria-labelledby="profile-title"><p class="eyebrow">Make it yours</p><h1 id="profile-title">Profile</h1><p>Choose how you appear in your Campus Companion workspace.</p></section>
+    <section class="profile-layout">
+      <section class="tool-panel panel profile-card" aria-labelledby="profile-preview-title">
+        <p class="eyebrow">Your account</p>
+        <h2 id="profile-preview-title">Profile preview</h2>
+        <div class="profile-preview">
+          <div class="profile-avatar profile-avatar--large" id="profile-avatar" aria-label="Profile picture placeholder">CC</div>
+          <div><h3 id="profile-preview-name">Campus Companion user</h3><p id="profile-preview-bio">Add a short introduction from the form.</p></div>
+        </div>
+        <p class="feedback-message" id="profile-feedback" role="status" aria-live="polite"></p>
+      </section>
+      <section class="tool-panel panel" aria-labelledby="profile-details-title">
+        <p class="eyebrow">Personal details</p>
+        <h2 id="profile-details-title">Edit your profile</h2>
+        <form class="profile-form" id="profile-form">
+          <label for="profile-name">Display name</label>
+          <input id="profile-name" name="displayName" type="text" maxlength="60" placeholder="e.g. Phyo SiThu Kyaw" required>
+          <label for="profile-bio">Short introduction</label>
+          <textarea id="profile-bio" name="bio" rows="4" maxlength="160" placeholder="Tell your study group a little about you."></textarea>
+          <label for="profile-picture">Profile picture</label>
+          <input id="profile-picture" name="picture" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+          <p class="form-help">Use a PNG, JPG, WEBP, or GIF image up to 2 MB. The picture is saved in this browser.</p>
+          <div class="profile-actions"><button class="primary-button" type="submit">Save profile</button><button class="secondary-button" id="remove-profile-picture" type="button">Remove picture</button></div>
+        </form>
+      </section>
+    </section>
+  </main>
+  <footer class="site-footer"><p>Campus Companion</p><p>Built one understandable feature at a time.</p></footer>
+  <script type="module" src="scripts/profile.js"></script>
+</body>
+</html>

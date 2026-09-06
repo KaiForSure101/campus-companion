@@ -7,6 +7,7 @@ export const STORAGE_KEYS = {
   theme: 'campus-companion-theme',
   reducedMotion: 'campus-companion-reduced-motion',
   timerSettings: 'campus-companion-timer-settings',
+  profile: 'campus-companion-profile',
 };
 
 export const starterAssignments = [

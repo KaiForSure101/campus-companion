@@ -1497,3 +1497,116 @@ textarea:focus {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* Profile tools use the same calm panel language while keeping the avatar prominent. */
+.profile-layout {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.profile-card {
+  align-content: start;
+}
+
+.profile-preview {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-medium);
+  background: var(--color-paper);
+}
+
+.profile-preview h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  letter-spacing: -0.025em;
+}
+
+.profile-preview p {
+  margin: 0.3rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.82rem;
+}
+
+.profile-avatar {
+  display: grid;
+  flex: 0 0 auto;
+  width: 5.5rem;
+  height: 5.5rem;
+  place-items: center;
+  border: 0.35rem solid var(--color-surface);
+  border-radius: 50%;
+  color: var(--color-ink);
+  background-color: var(--color-lime);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 0.6rem 1.4rem rgba(30, 54, 37, 0.12);
+  font-size: 1.45rem;
+  font-weight: 850;
+  letter-spacing: -0.06em;
+}
+
+.profile-avatar--image {
+  color: transparent;
+}
+
+.profile-form {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.profile-form > label {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.profile-form input[type="text"],
+.profile-form input[type="file"],
+.profile-form textarea {
+  width: 100%;
+  min-height: 2.6rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--color-line);
+  border-radius: 0.7rem;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  font: inherit;
+}
+
+.profile-form textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.profile-form input:focus-visible,
+.profile-form textarea:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.form-help {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.75rem;
+}
+
+.profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.55rem;
+}
+
+@media (min-width: 44rem) {
+  .profile-layout {
+    grid-template-columns: 0.85fr 1.15fr;
+    align-items: start;
+  }
+}
